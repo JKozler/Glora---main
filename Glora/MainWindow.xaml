@@ -6,9 +6,15 @@
         xmlns:local="clr-namespace:Glora"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="380" Width="440" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="{x:Null}">
+        Title="MainWindow" Height="auto"  Width="440" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Black">
     <Grid>
-        <Ellipse x:Name="ellSpeak" Panel.ZIndex="2" Width="15" Height="15" Stroke="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Ellipse VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" x:Name="ellSpeak" Panel.ZIndex="2" Width="15" Height="15" Stroke="White">
             <Ellipse.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#FFB3B3B3" Offset="0"/>
@@ -17,8 +23,25 @@
             </Ellipse.Fill>
         </Ellipse>
 
-        <Button x:Name="speakBtn" Click="speakBtn_Click" Height="Auto" FontSize="36" Margin="-18,-35,-18,-39">
+        <Button x:Name="speakBtn" Click="speakBtn_Click" Grid.Row="0" Height="auto" FontSize="36">
             <Image Source="aaasd.png"></Image>
         </Button>
+        <TextBox x:Name="dictateTb" Grid.Row="2" Foreground="White"></TextBox>
+        <Border Grid.Row="7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Content="Dictate" x:Name="dictateBtn" Click="dictateBtn_Click" Panel.ZIndex="2" Grid.Column="0" Grid.Row="0" Foreground="White" >
+                    
+                </Button>
+                <Label Grid.Column="1" x:Name="label" Foreground="White"></Label>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
