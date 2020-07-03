@@ -13,11 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Speech;
+using System.IO;
+using GoogleApi;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Media.Animation;
+using System.Reflection;
+using System.Net;
 
 namespace Glora
 {
@@ -31,10 +35,16 @@ namespace Glora
         SpeechRecognitionEngine sre = new SpeechRecognitionEngine();
         Choices choice = new Choices();
         string search = "";
-
+        string helpSearch = "";
+        bool speak = false;
+        string name;
+        bool anim = true;
         public MainWindow()
         {
             InitializeComponent();
+            ss.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Senior);
+            name = "jackob";
+            wind.WindowState = WindowState.Maximized;
             //wind.Height = SystemParameters.PrimaryScreenHeight;
             ss.SpeakAsync("Welcome back.");
             
@@ -43,88 +53,128 @@ namespace Glora
 
         private void speakBtn_Click(object sender, RoutedEventArgs e)
         {
-            choice.Add(new string[] {"hi", "hello", "how are you",  "what is the current date", "open google", "thank you", "close", "cola"});
-            DoubleAnimation doubleAnimation = new DoubleAnimation(15, 100, new Duration(new TimeSpan(0,0,3)));
-            ellSpeak.BeginAnimation(WidthProperty, doubleAnimation);
-            ellSpeak.BeginAnimation(HeightProperty, doubleAnimation);
-            Grammar grammar = new Grammar(new GrammarBuilder(choice));
-            try
+            if (speak == false)
             {
-                sre.RequestRecognizerUpdate();
-                sre.LoadGrammar(new DictationGrammar());
-                sre.SpeechRecognized += Sre_SpeechRecognized;
-                sre.SetInputToDefaultAudioDevice();
-                sre.RecognizeAsync(RecognizeMode.Multiple);
+                using (StreamReader sr = new StreamReader("commands.txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        choice.Add(line);
+                    }
+                }
+                //choice.Add(new string[] { "hi", "hello", "hello Glora", "hi Glora", "hello my girl", "how are you", "browser", "web", "what is the current date", "open google", "thank you", "close", "cola", "open youtube", "search youtube", "are you here" });
+                DoubleAnimation doubleAnimation = new DoubleAnimation(15, 100, new Duration(new TimeSpan(0, 0, 3)));
+                ellSpeak.BeginAnimation(WidthProperty, doubleAnimation);
+                ellSpeak.BeginAnimation(HeightProperty, doubleAnimation);
+                Grammar grammar = new Grammar(new GrammarBuilder(choice));
+                try
+                {
+                    sre.RequestRecognizerUpdate();
+                    sre.LoadGrammar(new DictationGrammar());
+                    sre.SpeechRecognized += Sre_SpeechRecognized;
+                    sre.SetInputToDefaultAudioDevice();
+                    sre.RecognizeAsync(RecognizeMode.Multiple);
+                }
+                catch (Exception)
+                {
+                    //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                speak = true;
             }
-            catch (Exception ex)
+            else
             {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DoubleAnimation doubleAnimation = new DoubleAnimation(100, 15, new Duration(new TimeSpan(0, 0, 3)));
+                ellSpeak.BeginAnimation(WidthProperty, doubleAnimation);
+                ellSpeak.BeginAnimation(HeightProperty, doubleAnimation);
+                sre.RecognizeAsyncStop();
+                speak = false;
             }
         }
 
         private void Sre_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
+            while (anim)
+            {
+                DoubleAnimation ani = new DoubleAnimation(0, 75, new Duration(new TimeSpan(0, 0, 3)));
+                ellGlora.BeginAnimation(WidthProperty, ani);
+                ellGlora.BeginAnimation(HeightProperty, ani);
+                anim = false;
+            }
             string s = e.Result.Text.ToString();
-            if (s.ToLower().Contains("hello"))
+            if (s.ToLower().Contains("hello there"))
+                ss.SpeakAsync("General Kenobi!");
+            else if (s.ToLower().Contains("hello") || s.ToLower().Contains("hi"))
                 ss.SpeakAsync("hello sir");
             else if (s.ToLower().Contains("current date"))
                 ss.SpeakAsync("current date is " + DateTime.Now.ToLongDateString());
             else if (s.ToLower().Contains("are you here"))
                 ss.SpeakAsync("I am here sir, dont be afraid");
-            else if (s.ToLower().Contains("browser") || s.ToLower().Contains("web"))
+            else if (s.ToLower().Contains("fine"))
+                ss.SpeakAsync("I am glad.");
+            else if (s.ToLower().Contains("how are you"))
+                ss.SpeakAsync("Thanks for asking sir, i am fine, and you?");
+            else if (s.ToLower().Contains("thank you"))
+                ss.SpeakAsync("pleasure is on my side " + name);
+            else if (s.ToLower().Contains("browser") || s.ToLower().Contains("web") || s.ToLower().Contains("google"))
             {
                 ss.SpeakAsync("I am opening google sir!");
                 Process.Start("chrome", "https://www.google.com");
             }
-            else if (s.ToLower().Contains("videos"))
+            else if (s.ToLower().Contains("close"))
             {
-                ss.SpeakAsync("Opening YT sir");
+                ss.Speak("See you later!");
+                this.Close();
+            }
+            else if (s.ToLower().Contains("calculator"))
+            {
+                ss.Speak("opening calculator!");
+                Process.Start("calculator");
+            }
+            else if (s.ToLower().Contains("youtube"))
+            {
+                ss.SpeakAsync("Opening YouTube sir");
                 Process.Start("chrome", "https://www.youtube.com");
             }
             else if (s.ToLower().Contains("search "))
             {
-                ss.SpeakAsync("Okay sir, I am searching for it");
-                char[] z = s.ToCharArray();
-                int y = 0;
-                for (int i = 0; i < z.Length; i++)
-                {
-                    if (z[i] == 's' && z[i + 1] == 'e' && z[i + 2] == 'a' && z[i + 3] == 'r' && z[i + 4] == 'c' && z[i + 5] == 'h' && z[i + 6] == ' ')
-                    {
-                        if ((i+7) == z.Length - 1)
-                        {
-                            ss.SpeakAsync("What i have to serach for sir?");
-                        }
-                        else if (z[i + 7] == 'f' && z[i + 8] == 'o' && z[i + 9] == 'r' && z[i + 10] == ' ')
-                        {
-                            y = i + 11;
-                            for (int g = 0; g <= (z.Length - 1 - y); g++)
-                            {
-                                search += z[y];
-                                y++;
-                            }
-                        }
-                        else
-                        {
-                            y = i + 7;
-                            for (int g = 0; g <= (z.Length - 1 - y); g++)
-                            {
-                                search += z[y];
-                                y++;
-                            }
-                        }
-                       
-                    }
-                }
-               
+                string urlAddress = "https://www.google.co.il/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=what%20is%20the%20weight%20of%20human%20heart";
+                // need to process to get the real URL of the question.
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            }
-            if (search != "")
-            {
-                label.Content = search;
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream receiveStream = response.GetResponseStream();
+                    StreamReader readStream = null;
+
+                    if (response.CharacterSet == null)
+                    {
+                        readStream = new StreamReader(receiveStream);
+                    }
+                    else
+                    {
+                        readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                    }
+
+                    tbSearchInfo.Text = readStream.ReadToEnd();
+                    response.Close();
+                    readStream.Close();
+                }
+
+                string g = s.Replace(' ', '+');
+                label.Content = g;
+                ss.SpeakAsync("Okay sir, I am searching for it");
+                int y = g.IndexOf("f") + 4;
+                search = g.Substring(y);
+                
                 Process.Start("chrome", "https://www.google.com/search?q=" + search);
-                search = "";
             }
-            dictateBtn.Content = s;
+
+            DoubleAnimation ani2 = new DoubleAnimation(75, 0, new Duration(new TimeSpan(0, 0, 3)));
+            ellGlora.BeginAnimation(WidthProperty, ani2);
+            ellGlora.BeginAnimation(HeightProperty, ani2);
+            dictateTb.Items.Add("You: " + s);
             //switch (e.Result.Text.ToString())
             //{
             //    case "hello":
@@ -161,8 +211,128 @@ namespace Glora
 
         private void dictateBtn_Click(object sender, RoutedEventArgs e)
         {
-            ss.SpeakAsync("Youcan speak and all what you want will be write in text box above you.");
+            if (tbCommandForPeople.Text != "")
+            {
+                if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
+                    ss.SpeakAsync("General Kenobi!");
+                else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi"))
+                    ss.SpeakAsync("hello sir");
+                else if (tbCommandForPeople.Text.ToLower().Contains("current date"))
+                    ss.SpeakAsync("current date is " + DateTime.Now.ToLongDateString());
+                else if (tbCommandForPeople.Text.ToLower().Contains("are you here"))
+                    ss.SpeakAsync("I am here sir, dont be afraid");
+                else if (tbCommandForPeople.Text.ToLower().Contains("fine"))
+                    ss.SpeakAsync("I am glad.");
+                else if (tbCommandForPeople.Text.ToLower().Contains("how are you"))
+                    ss.SpeakAsync("Thanks for asking sir, i am fine, and you?");
+                else if (tbCommandForPeople.Text.ToLower().Contains("thank you"))
+                    ss.SpeakAsync("pleasure is on my side " + name);
+                else if (tbCommandForPeople.Text.ToLower().Contains("browser") || tbCommandForPeople.Text.ToLower().Contains("web") || tbCommandForPeople.Text.ToLower().Contains("google"))
+                {
+                    ss.SpeakAsync("I am opening google sir!");
+                    Process.Start("chrome", "https://www.google.com");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("close"))
+                {
+                    ss.Speak("See you later!");
+                    this.Close();
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("calculator"))
+                {
+                    ss.Speak("openning calculator");
+                    //Process.Start("calculator");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains(".cz") || tbCommandForPeople.Text.ToLower().Contains(".com"))
+                {
+                    ss.Speak("I am looking for that page " + tbCommandForPeople.Text);
 
+                    string urlAddress = "https://www." + tbCommandForPeople.Text;
+
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Stream receiveStream = response.GetResponseStream();
+                        StreamReader readStream = null;
+
+                        if (response.CharacterSet == null)
+                        {
+                            readStream = new StreamReader(receiveStream);
+                        }
+                        else
+                        {
+                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        }
+
+                        tbSearchInfo.Text = readStream.ReadToEnd();
+                        response.Close();
+                        readStream.Close();
+                    }
+
+                    Process.Start("chrome", "https://www." + tbCommandForPeople.Text);
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("youtube"))
+                {
+                    ss.SpeakAsync("Opening YouTube sir");
+                    Process.Start("chrome", "https://www.youtube.com");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("search "))
+                {
+                    string g = tbCommandForPeople.Text.Replace(' ', '+');
+                    label.Content = g;
+                    ss.SpeakAsync("Okay sir, I am searching for it");
+                    int y = g.IndexOf("f") + 4;
+                    search = g.Substring(y);
+
+                    string urlAddress = "https://www.google.com/search?q=" + search;
+
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Stream receiveStream = response.GetResponseStream();
+                        StreamReader readStream = null;
+
+                        if (response.CharacterSet == null)
+                        {
+                            readStream = new StreamReader(receiveStream);
+                        }
+                        else
+                        {
+                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        }
+
+                        tbSearchInfo.Text = readStream.ReadToEnd();
+                        response.Close();
+                        readStream.Close();
+                    }
+
+                    Process.Start("chrome", "https://www.google.com/search?q=" + search);
+                }
+
+                DoubleAnimation ani2 = new DoubleAnimation(75, 0, new Duration(new TimeSpan(0, 0, 3)));
+                ellGlora.BeginAnimation(WidthProperty, ani2);
+                ellGlora.BeginAnimation(HeightProperty, ani2);
+                dictateTb.Items.Add("You: " + tbCommandForPeople.Text);
+            }
+            else{}
+            tbCommandForPeople.Text = "";
+        }
+
+        private void tbSearchInfo_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ss.SpeakAsync("Okay sir, I am openning that page.");
+            Process.Start("chrome", "https://www.google.com/search?q=" + search);
+        }
+
+        private void tbCommandForPeople_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                dictateBtn_Click(sender, e);
+            }
         }
     }
 }

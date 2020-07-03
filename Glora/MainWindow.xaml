@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Glora"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="auto"  Width="440" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Black">
+        Title="MainWindow" Height="auto"  Width="440" AllowsTransparency="True" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.9" Color="#FF323232"/>
+    </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -14,19 +17,29 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ellipse VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" x:Name="ellSpeak" Panel.ZIndex="2" Width="15" Height="15" Stroke="White">
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="#FFB3B3B3" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Button x:Name="speakBtn" Click="speakBtn_Click" Grid.Row="0" Height="auto" FontSize="36">
-            <Image Source="aaasd.png"></Image>
+        <Ellipse Grid.Column="1" VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" x:Name="ellGlora" Panel.ZIndex="2" Width="0" Height="0" Stroke="White" Fill="Black"/>
+
+        <Button Grid.Column="1" Background="Transparent" x:Name="speakBtn" Click="speakBtn_Click" Grid.Row="0" Height="auto" FontSize="36">
+            <Ellipse VerticalAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" x:Name="ellSpeak" Panel.ZIndex="2" Width="15" Height="15" Stroke="White">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FF6C6C6C" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
         </Button>
-        <TextBox x:Name="dictateTb" Grid.Row="2" Foreground="White"></TextBox>
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="#FF494949">
+        </Border>
+        <TextBox MouseDoubleClick="tbSearchInfo_MouseDoubleClick" Margin="5" Grid.Row="1" Grid.Column="1" x:Name="tbSearchInfo" Foreground="White"></TextBox>
+        <TextBox KeyDown="tbCommandForPeople_KeyDown" Margin="5" Grid.Row="3" Grid.Column="1" x:Name="tbCommandForPeople" Foreground="White" Background="#FF4F4F4F"></TextBox>
+        <ListBox Grid.Column="1" Panel.ZIndex="2" x:Name="dictateTb" Grid.Row="2" Foreground="White" BorderBrush="{x:Null}" Background="#FF323232"></ListBox>
         <Border Grid.Row="7">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -36,9 +49,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Dictate" x:Name="dictateBtn" Click="dictateBtn_Click" Panel.ZIndex="2" Grid.Column="0" Grid.Row="0" Foreground="White" >
-                    
+                <Button Visibility="Hidden" Content="Write" x:Name="dictateBtn" Click="dictateBtn_Click" Panel.ZIndex="2" Grid.Column="0" Grid.Row="0" Foreground="White" Background="Black" >
+
                 </Button>
                 <Label Grid.Column="1" x:Name="label" Foreground="White"></Label>
             </Grid>
