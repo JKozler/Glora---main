@@ -44,7 +44,7 @@ namespace Glora
             InitializeComponent();
             ss.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Senior);
             name = "jackob";
-            wind.WindowState = WindowState.Maximized;
+           // wind.WindowState = WindowState.Maximized;
             //wind.Height = SystemParameters.PrimaryScreenHeight;
             ss.SpeakAsync("Welcome back.");
             
@@ -108,6 +108,8 @@ namespace Glora
                 ss.SpeakAsync("hello sir");
             else if (s.ToLower().Contains("current date"))
                 ss.SpeakAsync("current date is " + DateTime.Now.ToLongDateString());
+            else if (s.ToLower().Contains("time"))
+                ss.SpeakAsync("current date is " + DateTime.Now.ToLocalTime());
             else if (s.ToLower().Contains("are you here"))
                 ss.SpeakAsync("I am here sir, dont be afraid");
             else if (s.ToLower().Contains("fine"))
@@ -217,6 +219,8 @@ namespace Glora
                     ss.SpeakAsync("General Kenobi!");
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi"))
                     ss.SpeakAsync("hello sir");
+                else if (tbCommandForPeople.Text.ToLower().Contains("time"))
+                    ss.SpeakAsync("current date is " + DateTime.Now.ToLocalTime());
                 else if (tbCommandForPeople.Text.ToLower().Contains("current date"))
                     ss.SpeakAsync("current date is " + DateTime.Now.ToLongDateString());
                 else if (tbCommandForPeople.Text.ToLower().Contains("are you here"))

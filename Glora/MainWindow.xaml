@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Glora"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="auto"  Width="440" AllowsTransparency="True" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="MainWindow" Height="980"  Width="640" AllowsTransparency="True" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Background>
         <SolidColorBrush Opacity="0.9" Color="#FF323232"/>
     </Window.Background>
@@ -16,6 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.175*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -35,6 +36,24 @@
                 </Ellipse.Fill>
             </Ellipse>
         </Button>
+        <Rectangle Panel.ZIndex="2" Grid.Column="0" Grid.Row="1" RadiusX="20" RadiusY="20" Margin="10">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF01072C" Offset="0"/>
+                    <GradientStop Color="#FF0016A0" Offset="0.44"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+
+        </Rectangle>
+        <Rectangle Margin="10" Grid.Column="2" Grid.Row="1" Panel.ZIndex="2" RadiusX="20" RadiusY="20">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Red" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.637"/>
+                    <GradientStop Color="Red" Offset="0.94"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="#FF494949">
         </Border>
         <TextBox MouseDoubleClick="tbSearchInfo_MouseDoubleClick" Margin="5" Grid.Row="1" Grid.Column="1" x:Name="tbSearchInfo" Foreground="White"></TextBox>
