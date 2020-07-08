@@ -44,7 +44,7 @@ namespace Glora
             InitializeComponent();
             ss.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Senior);
             name = "jackob";
-           // wind.WindowState = WindowState.Maximized;
+            wind.WindowState = WindowState.Maximized;
             //wind.Height = SystemParameters.PrimaryScreenHeight;
             ss.SpeakAsync("Welcome back.");
             
@@ -103,7 +103,11 @@ namespace Glora
             }
             string s = e.Result.Text.ToString();
             if (s.ToLower().Contains("hello there"))
-                ss.SpeakAsync("General Kenobi!");
+            {
+                ss.SpeakAsync("General Kenobi!"); 
+                gloraSay.Items.Add("");
+                gloraSay.Items.Add("General Kenobi!");
+            }
             else if (s.ToLower().Contains("hello") || s.ToLower().Contains("hi"))
                 ss.SpeakAsync("hello sir");
             else if (s.ToLower().Contains("current date"))
@@ -159,7 +163,11 @@ namespace Glora
                         readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
                     }
 
-                    tbSearchInfo.Text = readStream.ReadToEnd();
+                    Stream stream = new FileStream("web.txt", FileMode.Create);
+                    using (StreamWriter sw = new StreamWriter(stream))
+                    {
+                        sw.WriteLine(readStream.ReadToEnd());
+                    }
                     response.Close();
                     readStream.Close();
                 }
@@ -169,7 +177,7 @@ namespace Glora
                 ss.SpeakAsync("Okay sir, I am searching for it");
                 int y = g.IndexOf("f") + 4;
                 search = g.Substring(y);
-                
+
                 Process.Start("chrome", "https://www.google.com/search?q=" + search);
             }
 
@@ -177,38 +185,7 @@ namespace Glora
             ellGlora.BeginAnimation(WidthProperty, ani2);
             ellGlora.BeginAnimation(HeightProperty, ani2);
             dictateTb.Items.Add("You: " + s);
-            //switch (e.Result.Text.ToString())
-            //{
-            //    case "hello":
-            //        ss.SpeakAsync("hello sir");
-            //        break;
-
-            //    case "how are you":
-            //        ss.SpeakAsync("really nice, and you?");
-            //        break;
-
-            //    case "what is the current date":
-            //        ss.SpeakAsync("current date is " + DateTime.Now.ToLongDateString());
-            //        break;
-
-            //    case "thank you":
-            //        ss.SpeakAsync("pleasure is on my side sir");
-            //        break;
-
-            //    case "open google":
-            //        ss.SpeakAsync("Okey sir");
-            //        Process.Start("chrome", "https://www.google.com");
-            //        break;
-
-            //    case "close":
-            //        this.Close();
-            //        break;
-
-            //    default:
-            //        ss.SpeakAsync("iam searching for it sir!");
-            //        Process.Start("chrome", "https://www.google.com/search?q=" + e.Result.Text.ToString());
-            //        break;
-            //}
+            dictateTb.Items.Add(" ");
         }
 
         private void dictateBtn_Click(object sender, RoutedEventArgs e)
@@ -216,7 +193,11 @@ namespace Glora
             if (tbCommandForPeople.Text != "")
             {
                 if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
+                {
                     ss.SpeakAsync("General Kenobi!");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("General Kenobi!");
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi"))
                     ss.SpeakAsync("hello sir");
                 else if (tbCommandForPeople.Text.ToLower().Contains("time"))
@@ -268,8 +249,11 @@ namespace Glora
                         {
                             readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
                         }
-
-                        tbSearchInfo.Text = readStream.ReadToEnd();
+                        Stream stream = new FileStream("web.txt", FileMode.Create);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            sw.WriteLine(readStream.ReadToEnd());
+                        }
                         response.Close();
                         readStream.Close();
                     }
@@ -308,7 +292,11 @@ namespace Glora
                             readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
                         }
 
-                        tbSearchInfo.Text = readStream.ReadToEnd();
+                        Stream stream = new FileStream("web.txt", FileMode.Create);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            sw.WriteLine(readStream.ReadToEnd());
+                        }
                         response.Close();
                         readStream.Close();
                     }
@@ -320,15 +308,10 @@ namespace Glora
                 ellGlora.BeginAnimation(WidthProperty, ani2);
                 ellGlora.BeginAnimation(HeightProperty, ani2);
                 dictateTb.Items.Add("You: " + tbCommandForPeople.Text);
+                dictateTb.Items.Add(" ");
             }
             else{}
             tbCommandForPeople.Text = "";
-        }
-
-        private void tbSearchInfo_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ss.SpeakAsync("Okay sir, I am openning that page.");
-            Process.Start("chrome", "https://www.google.com/search?q=" + search);
         }
 
         private void tbCommandForPeople_KeyDown(object sender, KeyEventArgs e)

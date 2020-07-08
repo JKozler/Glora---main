@@ -36,15 +36,15 @@
                 </Ellipse.Fill>
             </Ellipse>
         </Button>
-        <Rectangle Panel.ZIndex="2" Grid.Column="0" Grid.Row="1" RadiusX="20" RadiusY="20" Margin="10">
+        <!--<Rectangle Panel.ZIndex="2" Grid.Column="0" Grid.Row="1" RadiusX="20" RadiusY="20" Margin="10">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF01072C" Offset="0"/>
                     <GradientStop Color="#FF0016A0" Offset="0.44"/>
                 </LinearGradientBrush>
-            </Rectangle.Fill>
+            </Rectangle.Fill>-->
 
-        </Rectangle>
+        <!--</Rectangle>
         <Rectangle Margin="10" Grid.Column="2" Grid.Row="1" Panel.ZIndex="2" RadiusX="20" RadiusY="20">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -53,12 +53,21 @@
                     <GradientStop Color="Red" Offset="0.94"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
-        </Rectangle>
+        </Rectangle>-->
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="#FF494949">
         </Border>
-        <TextBox MouseDoubleClick="tbSearchInfo_MouseDoubleClick" Margin="5" Grid.Row="1" Grid.Column="1" x:Name="tbSearchInfo" Foreground="White"></TextBox>
         <TextBox KeyDown="tbCommandForPeople_KeyDown" Margin="5" Grid.Row="3" Grid.Column="1" x:Name="tbCommandForPeople" Foreground="White" Background="#FF4F4F4F"></TextBox>
-        <ListBox Grid.Column="1" Panel.ZIndex="2" x:Name="dictateTb" Grid.Row="2" Foreground="White" BorderBrush="{x:Null}" Background="#FF323232"></ListBox>
+        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Column="0" Panel.ZIndex="2" x:Name="dictateTb" Foreground="White" BorderBrush="{x:Null}" Background="#FF323232"></ListBox>
+                <ListBox HorizontalContentAlignment="Right" Grid.Column="1" Panel.ZIndex="2" x:Name="gloraSay" Foreground="White" BorderBrush="{x:Null}" Background="#FF323232"></ListBox>
+            </Grid>
+        </Border>
+        
         <Border Grid.Row="7">
             <Grid>
                 <Grid.ColumnDefinitions>
