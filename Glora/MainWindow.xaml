@@ -57,6 +57,16 @@
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="#FF494949">
         </Border>
         <TextBox KeyDown="tbCommandForPeople_KeyDown" Margin="5" Grid.Row="3" Grid.Column="1" x:Name="tbCommandForPeople" Foreground="White" Background="#FF4F4F4F"></TextBox>
+        <Border Grid.Column="0" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button IsEnabled="False" x:Name="webPageCode" Click="webPageCode_Click" Panel.ZIndex="2" Content="Show page code" BorderBrush="White"></Button>
+            </Grid>
+        </Border>
         <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -82,7 +92,6 @@
                 <Button Visibility="Hidden" Content="Write" x:Name="dictateBtn" Click="dictateBtn_Click" Panel.ZIndex="2" Grid.Column="0" Grid.Row="0" Foreground="White" Background="Black" >
 
                 </Button>
-                <Label Grid.Column="1" x:Name="label" Foreground="White"></Label>
             </Grid>
         </Border>
     </Grid>
