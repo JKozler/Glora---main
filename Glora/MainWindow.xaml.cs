@@ -121,6 +121,11 @@ namespace Glora
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add(DateTime.Now.ToLongDateString());
             }
+            else if (s.ToLower().Contains("how old") && s.ToLower().Contains("you"))
+            {
+                ss.SpeakAsync("It is not polit to ask about woman's age");
+                gloraSay.Items.Add("It is not polit to ask about woman's age.");
+            }
             else if (s.ToLower().Contains("time"))
             {
                 ss.SpeakAsync("current date is " + DateTime.Now.ToLocalTime());
@@ -258,6 +263,11 @@ namespace Glora
                     ss.SpeakAsync("current date is " + DateTime.Now.ToLocalTime());
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add(DateTime.Now.ToLocalTime().ToString());
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("how old") && tbCommandForPeople.Text.ToLower().Contains("you"))
+                {
+                    ss.SpeakAsync("It is not polit to ask about woman's age");
+                    gloraSay.Items.Add("It is not polit to ask about woman's age.");
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("current date"))
                 {
