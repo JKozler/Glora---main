@@ -37,6 +37,7 @@ namespace Glora
         string search = "";
         string helpSearch = "";
         bool speak = false;
+        bool problems = false;
         string name;
         bool anim = true;
         string[] motivate = { "The harder you work for something, the greater you’ll feel when you achieve it.", "Don’t stop when you’re tired. Stop when you’re done.", "Do something today that your future self will thank you for.", " Sometimes we’re tested not to show our weaknesses, but to discover our strengths.", "The key to success is to focus on goals, not obstacles.", "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", "It’s not whether you get knocked down, it’s whether you get up.", "If you have something to do today, don't do it and you will have one free day." };
@@ -132,12 +133,27 @@ namespace Glora
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add(DateTime.Now.ToLocalTime().ToString());
             }
-            else if (s.ToLower().Contains("10 to 0"))
+            else if (s.ToLower().Contains("from") && s.ToLower().Contains("to"))
             {
+                int y = s.IndexOf("m") + 2;
+                string se = s.Substring(y);
+                int y2 = se.IndexOf(" ") - 1;
+                int y3 = se.IndexOf(" ") + 1;
+                string re = se.Substring(y3);
+                int x1 = Convert.ToInt32(se.Substring(0, y2));
+                int x2 = Convert.ToInt32(re);
                 ss.SpeakAsync("Ok sir!");
-                ss.SpeakAsync("10!"); ss.SpeakAsync("9!"); ss.SpeakAsync("8!"); ss.SpeakAsync("7!"); ss.SpeakAsync("6!"); ss.SpeakAsync("5!"); ss.SpeakAsync("4!"); ss.SpeakAsync("3!"); ss.SpeakAsync("2!"); ss.SpeakAsync("1!"); ss.SpeakAsync("Misík!");
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add("10,9,8....");
+                while (x1 != x2)
+                {
+                    ss.SpeakAsync(x1.ToString());
+                    x1--;
+                }
+                if (x1 == x2)
+                {
+                    ss.SpeakAsync("DONE!!!");
+                }
             }
             else if (s.ToLower().Contains("are you here"))
             {
@@ -246,6 +262,19 @@ namespace Glora
         {
             if (tbCommandForPeople.Text != "")
             {
+                while (problems == true)
+                {
+                    if (tbCommandForPeople.Text.ToLower().Contains("done"))
+                    {
+                        problems = false;
+                        ss.SpeakAsync("Okay, I believe i help you fine.");
+                    }
+                }
+                if (tbCommandForPeople.Text.ToLower().Contains("have") && tbCommandForPeople.Text.ToLower().Contains("problem"))
+                {
+                    problems = true;
+                    ss.SpeakAsync("Can i ask what kind of problem you have?");
+                }
                 if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
                 {
                     ss.SpeakAsync("General Kenobi!");
@@ -296,13 +325,31 @@ namespace Glora
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("I am glad!");
                 }
-                else if (tbCommandForPeople.Text.ToLower().Contains("10 to 0"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("from") && tbCommandForPeople.Text.ToLower().Contains("to"))
                 {
+                    int y = tbCommandForPeople.Text.IndexOf("m") + 2;
+                    string se = tbCommandForPeople.Text.Substring(y);
+                    int y2 = se.IndexOf(" ");
+                    int y3 = se.IndexOf(" ") + 1;
+                    string se2 = se.Substring(y3);
+                    int y4 = se2.IndexOf("o") + 2;
+                    string se3 = se2.Substring(y4);
+                    int x1 = Convert.ToInt32(se.Substring(0, y2));
+                    int x2 = Convert.ToInt32(se3);
                     ss.SpeakAsync("Ok sir!");
-                    ss.SpeakAsync("10!"); ss.SpeakAsync("9!"); ss.SpeakAsync("8!"); ss.SpeakAsync("7!"); ss.SpeakAsync("6!"); ss.SpeakAsync("5!"); ss.SpeakAsync("4!"); ss.SpeakAsync("3!"); ss.SpeakAsync("2!"); ss.SpeakAsync("1!"); ss.SpeakAsync("Misík!");
                     gloraSay.Items.Add("");
-                    gloraSay.Items.Add("10,9,8....");
+                    gloraSay.Items.Add("Counting....");
+                    while (x1 != x2)
+                    {
+                        ss.SpeakAsync(x1.ToString());
+                        x1--;
+                    }
+                    if (x1 == x2)
+                    {
+                        ss.SpeakAsync("DONE!!!");
+                    }
                 }
+
                 else if (tbCommandForPeople.Text.ToLower().Contains("how are you"))
                 {
                     ss.SpeakAsync("Thanks for asking sir, i am fine, and you?");
