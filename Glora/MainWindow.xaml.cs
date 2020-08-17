@@ -268,7 +268,8 @@ namespace Glora
                     if (tbCommandForPeople.Text.ToLower().Contains("processor") || tbCommandForPeople.Text.ToLower().Contains("lag") || tbCommandForPeople.Text.ToLower().Contains("bug"))
                     {
                         problems = false;
-                        ss.SpeakAsync("I prefer restart PC if this not work, you can upgrade your computer. Can I restart your machine? <yes/no>");
+                        ss.SpeakAsync("I prefer restart PC, if this not work, you can upgrade your computer. Can I restart your machine?");
+                        gloraSay.Items.Add("");
                         gloraSay.Items.Add("Can I restart your machine? <yes/no>");
                         problemsHelp = true;
                     }
@@ -277,12 +278,9 @@ namespace Glora
                         problems = false;
                         ss.SpeakAsync("Okay, I believe i help you fine.");
                     }
-                    else if (tbCommandForPeople.Text.ToLower().Contains("yes"))
+                    else if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("jop") || tbCommandForPeople.Text.ToLower().Contains("of course"))
                     {
-                        Process process = new Process();
-                        process.StartInfo.FileName = "/usr/bin/sudo";
-                        process.StartInfo.Arguments = "/sbin/shutdown -r now";
-                        process.Start();
+                        Process.Start("shutdown.exe", "-r");
                     }
                 }
                 if (tbCommandForPeople.Text.ToLower().Contains("have") && tbCommandForPeople.Text.ToLower().Contains("problem"))
