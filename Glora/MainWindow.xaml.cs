@@ -38,6 +38,7 @@ namespace Glora
         string helpSearch = "";
         bool speak = false;
         bool problems = false;
+        bool problemsHelp = false;
         string name;
         bool anim = true;
         string[] motivate = { "The harder you work for something, the greater you’ll feel when you achieve it.", "Don’t stop when you’re tired. Stop when you’re done.", "Do something today that your future self will thank you for.", " Sometimes we’re tested not to show our weaknesses, but to discover our strengths.", "The key to success is to focus on goals, not obstacles.", "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", "It’s not whether you get knocked down, it’s whether you get up.", "If you have something to do today, don't do it and you will have one free day." };
@@ -262,18 +263,34 @@ namespace Glora
         {
             if (tbCommandForPeople.Text != "")
             {
-                while (problems == true)
+                if (problems == true)
                 {
-                    if (tbCommandForPeople.Text.ToLower().Contains("done"))
+                    if (tbCommandForPeople.Text.ToLower().Contains("processor") || tbCommandForPeople.Text.ToLower().Contains("lag") || tbCommandForPeople.Text.ToLower().Contains("bug"))
+                    {
+                        problems = false;
+                        ss.SpeakAsync("I prefer restart PC if this not work, you can upgrade your computer. Can I restart your machine? <yes/no>");
+                        gloraSay.Items.Add("Can I restart your machine? <yes/no>");
+                        problemsHelp = true;
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("done"))
                     {
                         problems = false;
                         ss.SpeakAsync("Okay, I believe i help you fine.");
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("yes"))
+                    {
+                        Process process = new Process();
+                        process.StartInfo.FileName = "/usr/bin/sudo";
+                        process.StartInfo.Arguments = "/sbin/shutdown -r now";
+                        process.Start();
                     }
                 }
                 if (tbCommandForPeople.Text.ToLower().Contains("have") && tbCommandForPeople.Text.ToLower().Contains("problem"))
                 {
                     problems = true;
-                    ss.SpeakAsync("Can i ask what kind of problem you have?");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("Type something like lag/bug/memory/storage etc..");
+                    ss.SpeakAsync("What kind of problem you have?");
                 }
                 if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
                 {
@@ -467,6 +484,11 @@ namespace Glora
             }
             else{}
             tbCommandForPeople.Text = "";
+
+            if (problemsHelp == true)
+            {
+                problems = true;
+            }
         }
 
         private void tbCommandForPeople_KeyDown(object sender, KeyEventArgs e)
