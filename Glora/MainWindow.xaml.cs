@@ -145,7 +145,7 @@ namespace Glora
                 int x2 = Convert.ToInt32(re);
                 ss.SpeakAsync("Ok sir!");
                 gloraSay.Items.Add("");
-                gloraSay.Items.Add("10,9,8....");
+                gloraSay.Items.Add("Counting...");
                 while (x1 != x2)
                 {
                     ss.SpeakAsync(x1.ToString());
@@ -167,6 +167,17 @@ namespace Glora
                 ss.SpeakAsync("I am glad.");
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add("I am glad!");
+            }
+            else if (s.ToLower().Contains("thank"))
+            {
+                ss.SpeakAsync("I am trying to do my best sir!");
+                gloraSay.Items.Add("");
+                gloraSay.Items.Add("I am trying to do my best sir!");
+            }
+            else if (s.ToLower().Contains("minimaze"))
+            {
+                ss.SpeakAsync("I am minimazing myself!");
+                wind.WindowState = WindowState.Minimized;
             }
             else if (s.ToLower().Contains("motivate me"))
             {
@@ -278,9 +289,10 @@ namespace Glora
                         problems = false;
                         ss.SpeakAsync("Okay, I believe i help you fine.");
                     }
-                    else if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("jop") || tbCommandForPeople.Text.ToLower().Contains("of course"))
+                    else if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("jop") || tbCommandForPeople.Text.ToLower().Contains("of course") || tbCommandForPeople.Text.ToLower().Contains("can do"))
                     {
                         Process.Start("shutdown.exe", "-r");
+                        ss.SpeakAsync("Ok, please wait little moment.");
                     }
                 }
                 if (tbCommandForPeople.Text.ToLower().Contains("have") && tbCommandForPeople.Text.ToLower().Contains("problem"))
@@ -290,11 +302,22 @@ namespace Glora
                     gloraSay.Items.Add("Type something like lag/bug/memory/storage etc..");
                     ss.SpeakAsync("What kind of problem you have?");
                 }
-                if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
                 {
                     ss.SpeakAsync("General Kenobi!");
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("General Kenobi!");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("thank"))
+                {
+                    ss.SpeakAsync("I am trying to do my best sir!");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("I am trying to do my best sir!");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("minimaze"))
+                {
+                    ss.SpeakAsync("I am minimazing myself!");
+                    wind.WindowState = WindowState.Minimized;
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi"))
                 {
