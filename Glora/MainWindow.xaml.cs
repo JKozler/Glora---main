@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Windows.Media.Animation;
 using System.Reflection;
 using System.Net;
+using Microsoft.Win32;
 
 namespace Glora
 {
@@ -35,6 +36,8 @@ namespace Glora
         SpeechRecognitionEngine sre = new SpeechRecognitionEngine();
         Choices choice = new Choices();
         string search = "";
+        string path = "";
+        string allTxt = "";
         string helpSearch = "";
         bool speak = false;
         bool problems = false;
@@ -308,6 +311,31 @@ namespace Glora
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("General Kenobi!");
                 }
+                else if (tbCommandForPeople.Text.ToLower().Contains("read") || tbCommandForPeople.Text.ToLower().Contains("show"))
+                {
+                    tbFileOpenInfo.Clear();
+                    allTxt = "";
+                    ss.SpeakAsync("What kind of file I have to read?");
+                    OpenFileDialog opf = new OpenFileDialog();
+                    opf.Filter = "Text|*.txt|All|*.*";
+                    Nullable<bool> res = opf.ShowDialog();
+                    if (res == true)
+                    {
+                        path = opf.FileName;
+                    }
+                    using (StreamReader sr = new StreamReader(path))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            ss.SpeakAsync(line);
+                            allTxt += line + Environment.NewLine;
+                        }
+                        tbFileOpenInfo.Text = allTxt;
+                    }
+                    btnSaveReadingFile.IsEnabled = true;
+                    gloraSay.Items.Add("You can edit the file.");
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("thank"))
                 {
                     ss.SpeakAsync("I am trying to do my best sir!");
@@ -523,6 +551,17 @@ namespace Glora
         private void webPageCode_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("web.txt");
+        }
+
+        private void btnSaveReadingFile_Click(object sender, RoutedEventArgs e)
+        {
+            Stream stream = new FileStream(path, FileMode.Create);
+            using (StreamWriter sw = new StreamWriter(stream))
+            {
+                sw.WriteLine(tbFileOpenInfo.Text);
+            }
+            btnSaveReadingFile.IsEnabled = false;
+            ss.SpeakAsync("File was saved successfully.");
         }
     }
 }

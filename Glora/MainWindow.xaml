@@ -77,7 +77,16 @@
                 <ListBox HorizontalContentAlignment="Right" Grid.Column="1" Panel.ZIndex="2" x:Name="gloraSay" Foreground="White" BorderBrush="{x:Null}" Background="#FF3C3C3C"></ListBox>
             </Grid>
         </Border>
-        
+        <Border Grid.Column="2" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" x:Name="tbFileOpenInfo" Foreground="White"></TextBox>
+                <Button Grid.Row="1" x:Name="btnSaveReadingFile" Click="btnSaveReadingFile_Click" ToolTip="If you change the file, save it here" IsEnabled="False" Content="Save"></Button>
+            </Grid>
+        </Border>
         <Border Grid.Row="7">
             <Grid>
                 <Grid.ColumnDefinitions>
