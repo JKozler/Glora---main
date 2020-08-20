@@ -65,6 +65,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Button IsEnabled="False" x:Name="webPageCode" Click="webPageCode_Click" Panel.ZIndex="2" Content="Show page code" BorderBrush="White"></Button>
+                <Button Grid.Row="1" IsEnabled="True" x:Name="pripominky" Click="pripominky_Click" Panel.ZIndex="2" Content="Brain" BorderBrush="White"></Button>
             </Grid>
         </Border>
         <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
@@ -83,8 +84,8 @@
                     <RowDefinition Height="5*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" x:Name="tbFileOpenInfo" Foreground="White"></TextBox>
-                <Button Grid.Row="1" x:Name="btnSaveReadingFile" Click="btnSaveReadingFile_Click" ToolTip="If you change the file, save it here" IsEnabled="False" Content="Save"></Button>
+                <TextBox IsEnabled="False" MouseDoubleClick="tbFileOpenInfo_MouseDoubleClick" Grid.Row="0" x:Name="tbFileOpenInfo" Foreground="White"></TextBox>
+                <Button Grid.Row="1" x:Name="btnSaveReadingFile" Click="btnSaveReadingFile_Click" ToolTip="If you change the file, save it here" IsEnabled="False" Content="Save" BorderBrush="#FF959595" Background="LightGray"></Button>
             </Grid>
         </Border>
         <Border Grid.Row="7">

@@ -23,6 +23,7 @@ using System.Windows.Media.Animation;
 using System.Reflection;
 using System.Net;
 using Microsoft.Win32;
+using MaterialDesignColors.Recommended;
 
 namespace Glora
 {
@@ -40,11 +41,13 @@ namespace Glora
         string allTxt = "";
         string helpSearch = "";
         bool speak = false;
+        bool cantOpen = false;
         bool problems = false;
         bool problemsHelp = false;
         string name;
         bool anim = true;
         string[] motivate = { "The harder you work for something, the greater you’ll feel when you achieve it.", "Don’t stop when you’re tired. Stop when you’re done.", "Do something today that your future self will thank you for.", " Sometimes we’re tested not to show our weaknesses, but to discover our strengths.", "The key to success is to focus on goals, not obstacles.", "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", "It’s not whether you get knocked down, it’s whether you get up.", "If you have something to do today, don't do it and you will have one free day." };
+        string[] greetings = { "Hi sir", "Hi", "Hello, how are you.", "I am really glad to see you again", "Hey", "Whoops, you think it was lag, nope, it was prank...", "Whats up sir.", "Welcome" };
         public MainWindow()
         {
             InitializeComponent();
@@ -53,7 +56,6 @@ namespace Glora
             wind.WindowState = WindowState.Maximized;
             //wind.Height = SystemParameters.PrimaryScreenHeight;
             ss.SpeakAsync("Welcome back.");
-            
             //ss.SelectVoiceByHints(VoiceGender.Male);
         }
 
@@ -114,7 +116,7 @@ namespace Glora
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add("General Kenobi!");
             }
-            else if (s.ToLower().Contains("hello") || s.ToLower().Contains("hi"))
+            else if (s.ToLower().Contains("hello") || s.ToLower().Contains("hi") || s.ToLower().Contains("hey") || s.ToLower().Contains("glora"))
             {
                 ss.SpeakAsync("hello sir");
                 gloraSay.Items.Add("");
@@ -190,6 +192,15 @@ namespace Glora
                 ss.SpeakAsync(motivate[y]);
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add("Let's do it!");
+            }
+            else if (s.ToLower().Contains("reset"))
+            {
+                ss.SpeakAsync("I am reseting myself.?");
+                tbFileOpenInfo.Clear();
+                tbFileOpenInfo.IsEnabled = false;
+                btnSaveReadingFile.IsEnabled = false;
+                gloraSay.Items.Clear();
+                dictateTb.Items.Clear();
             }
             else if (s.ToLower().Contains("how are you"))
             {
@@ -279,13 +290,23 @@ namespace Glora
             {
                 if (problems == true)
                 {
-                    if (tbCommandForPeople.Text.ToLower().Contains("processor") || tbCommandForPeople.Text.ToLower().Contains("lag") || tbCommandForPeople.Text.ToLower().Contains("bug"))
+                    if (cantOpen == true)
+                    {
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("processor") || tbCommandForPeople.Text.ToLower().Contains("lag") || tbCommandForPeople.Text.ToLower().Contains("bug"))
                     {
                         problems = false;
                         ss.SpeakAsync("I prefer restart PC, if this not work, you can upgrade your computer. Can I restart your machine?");
                         gloraSay.Items.Add("");
                         gloraSay.Items.Add("Can I restart your machine? <yes/no>");
                         problemsHelp = true;
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("program") || tbCommandForPeople.Text.ToLower().Contains("open"))
+                    {
+                        cantOpen = true;
+                        ss.SpeakAsync("Please write exact name of the progrma or file.");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("Please write exact name of the progrma/file.");
                     }
                     else if (tbCommandForPeople.Text.ToLower().Contains("done"))
                     {
@@ -311,6 +332,12 @@ namespace Glora
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("General Kenobi!");
                 }
+                else if (tbCommandForPeople.Text.ToLower().Contains("watch file"))
+                {
+                    wind.WindowState = WindowState.Minimized;
+                    FileW fileW = new FileW();
+                    fileW.ShowDialog();
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("read") || tbCommandForPeople.Text.ToLower().Contains("show"))
                 {
                     tbFileOpenInfo.Clear();
@@ -334,6 +361,7 @@ namespace Glora
                         tbFileOpenInfo.Text = allTxt;
                     }
                     btnSaveReadingFile.IsEnabled = true;
+                    tbFileOpenInfo.IsEnabled = true;
                     gloraSay.Items.Add("You can edit the file.");
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("thank"))
@@ -347,11 +375,15 @@ namespace Glora
                     ss.SpeakAsync("I am minimazing myself!");
                     wind.WindowState = WindowState.Minimized;
                 }
-                else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi") || tbCommandForPeople.Text.ToLower().Contains("hey") || tbCommandForPeople.Text.ToLower().Contains("glora"))
                 {
-                    ss.SpeakAsync("hello sir");
+                    Random random = new Random();
+                    int x = random.Next(0, 7);
+                    if (greetings[x] == "Whoops, you think it was lag, nope, it was prank...")
+                        Thread.Sleep(2500);
+                    ss.SpeakAsync(greetings[x]);
                     gloraSay.Items.Add("");
-                    gloraSay.Items.Add("Hello sir!");
+                    gloraSay.Items.Add(greetings[x]);
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("time"))
                 {
@@ -421,6 +453,15 @@ namespace Glora
                     ss.SpeakAsync("Thanks for asking sir, i am fine, and you?");
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("Thanks for asking, I am fine, and you?");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("reset"))
+                {
+                    ss.SpeakAsync("I am reseting myself.?");
+                    tbFileOpenInfo.Clear();
+                    tbFileOpenInfo.IsEnabled = false;
+                    btnSaveReadingFile.IsEnabled = false;
+                    gloraSay.Items.Clear();
+                    dictateTb.Items.Clear();
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("thank you"))
                 {
@@ -562,6 +603,28 @@ namespace Glora
             }
             btnSaveReadingFile.IsEnabled = false;
             ss.SpeakAsync("File was saved successfully.");
+        }
+
+        private void tbFileOpenInfo_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.Forms.FontDialog fd = new System.Windows.Forms.FontDialog();
+            System.Windows.Forms.DialogResult dg = fd.ShowDialog();
+            if (dg == System.Windows.Forms.DialogResult.OK)
+            {
+                tbFileOpenInfo.FontFamily = new FontFamily(fd.Font.Name);
+                tbFileOpenInfo.FontSize = fd.Font.Size * 96.0 / 72.0;
+                tbFileOpenInfo.FontWeight = fd.Font.Bold ? FontWeights.Bold : FontWeights.Regular;
+                tbFileOpenInfo.FontStyle = fd.Font.Italic ? FontStyles.Italic : FontStyles.Normal;
+                TextDecorationCollection tdc = new TextDecorationCollection();
+                if (fd.Font.Underline) tdc.Add(TextDecorations.Underline);
+                if (fd.Font.Strikeout) tdc.Add(TextDecorations.Strikethrough);
+                tbFileOpenInfo.TextDecorations = tdc;
+            }
+        }
+
+        private void pripominky_Click(object sender, RoutedEventArgs e)
+        {
+            ss.SpeakAsync("I am opening your hard thinkies.");
         }
     }
 }
