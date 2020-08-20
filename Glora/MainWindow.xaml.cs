@@ -118,9 +118,13 @@ namespace Glora
             }
             else if (s.ToLower().Contains("hello") || s.ToLower().Contains("hi") || s.ToLower().Contains("hey") || s.ToLower().Contains("glora"))
             {
-                ss.SpeakAsync("hello sir");
+                Random random = new Random();
+                int x = random.Next(0, 7);
+                if (greetings[x] == "Whoops, you think it was lag, nope, it was prank...")
+                    Thread.Sleep(2500);
+                ss.SpeakAsync(greetings[x]);
                 gloraSay.Items.Add("");
-                gloraSay.Items.Add("Hello sir!");
+                gloraSay.Items.Add(greetings[x]);
             }
             else if (s.ToLower().Contains("current date"))
             {
