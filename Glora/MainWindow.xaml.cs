@@ -629,6 +629,8 @@ namespace Glora
         private void pripominky_Click(object sender, RoutedEventArgs e)
         {
             ss.SpeakAsync("I am opening your hard thinkies.");
+            Pripominky pripominky = new Pripominky();
+            pripominky.Show();
         }
     }
 }
