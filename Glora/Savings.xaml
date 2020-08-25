@@ -1,0 +1,39 @@
+﻿<Window x:Class="Glora.Savings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Glora"
+        mc:Ignorable="d"
+        x:Name="windo"
+        Title="Savings" Height="700" Width="500" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" MouseMove="OnWindowMouseMove">
+    <Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Ellipse x:Name="ell1" Opacity="0.5" Grid.Row="0" Grid.RowSpan="2" Width="50" Height="70" Fill="#FF56B1F0"/>
+            <Ellipse x:Name="ell2" Opacity="0.5" Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" Width="50" Height="40" Fill="#FF56B1F0"/>
+            <Ellipse x:Name="ell3" Opacity="0.5" Grid.Row="7" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="100" Height="70" Fill="#FF56B1F0"/>
+            <Ellipse x:Name="ell4" Opacity="0.5" Grid.Row="9" Grid.Column="3" Grid.RowSpan="3" Width="50" Height="130" Fill="#FF56B1F0"/>
+            
+        </Grid>
+    </Border>
+</Window>

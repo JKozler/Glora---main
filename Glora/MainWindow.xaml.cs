@@ -330,6 +330,14 @@ namespace Glora
                     gloraSay.Items.Add("Type something like lag/bug/memory/storage etc..");
                     ss.SpeakAsync("What kind of problem you have?");
                 }
+                if (tbCommandForPeople.Text.ToLower().Contains("saving program") || tbCommandForPeople.Text.ToLower().Contains("calculate my savings") || tbCommandForPeople.Text.ToLower().Contains("calculate saving"))
+                {
+                    ss.SpeakAsync("I am opening my special software for that, sir.");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("Opening Savings...");
+                    Savings savings = new Savings();
+                    savings.Show();
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello there"))
                 {
                     ss.SpeakAsync("General Kenobi!");
