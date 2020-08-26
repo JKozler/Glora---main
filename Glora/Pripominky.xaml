@@ -55,7 +55,7 @@
                         <RowDefinition Height="12*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Row="0" x:Name="txtRemind"></TextBox>
+                    <TextBox TextWrapping="WrapWithOverflow"  Grid.Row="0" x:Name="txtRemind"></TextBox>
                     <Border Grid.Row="1">
                         <Grid>
                             <Grid.ColumnDefinitions>

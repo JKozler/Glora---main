@@ -20,6 +20,7 @@ namespace Glora
     /// </summary>
     public partial class Pripominky : Window
     {
+        string name = "";
         public Pripominky()
         {
             InitializeComponent();
@@ -46,6 +47,9 @@ namespace Glora
         {
             if (lblRemind.SelectedItem.ToString() != null)
             {
+                otherEdit.IsEnabled = true;
+                name = lblRemind.SelectedItem.ToString();
+                fileName.Text = lblRemind.SelectedItem.ToString();
                 using (StreamReader sr = new StreamReader(lblRemind.SelectedItem.ToString()))
                 {
                     string line;
@@ -71,12 +75,16 @@ namespace Glora
         {
             if (fileName.Text != null)
             {
-                Stream stream = new FileStream("remind.txt", FileMode.Append);
-                using (StreamWriter sw = new StreamWriter(stream))
+                if (name == fileName.Text){}
+                else
                 {
-                    sw.WriteLine(fileName.Text);
+                    Stream stream = new FileStream("remind.txt", FileMode.Append);
+                    using (StreamWriter sw = new StreamWriter(stream))
+                    {
+                        sw.WriteLine(fileName.Text);
+                    }
                 }
-                Stream stream1 = new FileStream(fileName.Text, FileMode.Append);
+                Stream stream1 = new FileStream(fileName.Text, FileMode.Create);
                 using (StreamWriter sw = new StreamWriter(stream1))
                 {
                     sw.WriteLine(txtRemind.Text);
