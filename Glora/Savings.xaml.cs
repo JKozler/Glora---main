@@ -19,6 +19,13 @@ namespace Glora
     /// </summary>
     public partial class Savings : Window
     {
+        int slary = 0;
+        int expeness = 0;
+        string currType = "";
+        string perHour = "";
+        string workingHours = "";
+        string sa = "";
+        string ex = "";
         public Savings()
         {
             InitializeComponent();
@@ -49,10 +56,87 @@ namespace Glora
         {
             if (salary.Text != null && cbCurrency.SelectedItem != null && salarType.SelectedItem != null && tbExpeness.Text != null)
             {
+                if (salarType.SelectedItem.ToString() == "Per hour")
+                {
+                    if (tbWorkingHour.Text != null)
+                    {
+                        sa = salary.Text;
+                        ex = tbExpeness.Text;
+                        currType = cbCurrency.SelectedItem.ToString();
+                        perHour = salarType.SelectedItem.ToString();
+                        workingHours = tbWorkingHour.Text;
 
+                        int yearSalary = 0;
+                        int expeness = 0;
+
+                        yearSalary = CalculateErnings(perHour, Convert.ToInt32(sa), Convert.ToInt32(workingHours));
+                        expeness = CalculateExpeness(Convert.ToInt32(ex));
+                        int realOwn = yearSalary - expeness;
+
+                        result.Text = "With salary " + sa + " (" + currType + ") " + perHour + " you are erning " + yearSalary.ToString() + "(" + currType + ") per year. But infact, your expeness will be " + expeness + "(" + currType + ") , so your real own money is " + realOwn + "(" + currType + ") per year.";
+
+                    }
+                    else
+                        MessageBox.Show("YOu have to fill up everything.", "Type error");
+                }
+                else
+                {
+                    sa = salary.Text;
+                    ex = tbExpeness.Text;
+                    currType = cbCurrency.SelectedItem.ToString();
+                    perHour = salarType.SelectedItem.ToString();
+                    workingHours = "0";
+
+                    int yearSalary = 0;
+                    int expeness = 0;
+
+                    yearSalary = CalculateErnings(perHour, Convert.ToInt32(sa), Convert.ToInt32(workingHours));
+                    expeness = CalculateExpeness(Convert.ToInt32(ex));
+                    int realOwn = yearSalary - expeness;
+
+                    result.Text = "With salary " + sa + " (" + currType + ") " + perHour + " you are erning " + yearSalary.ToString() + "(" + currType + ") per year. But infact, your expeness will be " + expeness + "(" + currType + ") , so your real own money is " + realOwn + "(" + currType + ") per year.";
+
+                }
             }
             else
                 MessageBox.Show("YOu have to fill up everything.", "Type error");
+        }
+
+        private void salarType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (salarType.SelectedItem.ToString() == "Per hour")
+            {
+                lblWorking.Visibility = Visibility.Visible;
+                tbWorkingHour.Visibility = Visibility.Visible;
+            }
+            else if (salarType.SelectedItem.ToString() == "Per day")
+            {
+                lblWorking.Visibility = Visibility.Hidden;
+                tbWorkingHour.Visibility = Visibility.Hidden;
+            }
+            else if (salarType.SelectedItem.ToString() == "Per month")
+            {
+                lblWorking.Visibility = Visibility.Hidden;
+                tbWorkingHour.Visibility = Visibility.Hidden;
+            }
+        }
+
+        public int CalculateErnings(string type, int salary, int hours)
+        {
+            int res = 0;
+
+            if (type == "Per hour")
+                res = hours * 5 * 4 * 12 * salary;
+            else if (type == "Per day")
+                res = salary * 5 * 4 * 12;
+            else
+                res = salary * 12;
+
+            return res;
+        }
+        public int CalculateExpeness(int expeness)
+        {
+            return expeness * 12;
         }
     }
 }
