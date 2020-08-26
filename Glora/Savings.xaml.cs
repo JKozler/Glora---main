@@ -22,6 +22,13 @@ namespace Glora
         public Savings()
         {
             InitializeComponent();
+            cbCurrency.Items.Add("CZK");
+            cbCurrency.Items.Add("DOL");
+            cbCurrency.Items.Add("EUR");
+
+            salarType.Items.Add("Per hour");
+            salarType.Items.Add("Per day");
+            salarType.Items.Add("Per month");
         }
 
         private void OnWindowMouseMove(object sender, MouseEventArgs e)
@@ -36,6 +43,16 @@ namespace Glora
             ell2.Height = 40 - (p.Y / 30);
             ell3.Height = 70 - (p.Y / 30);
             ell4.Height = 130 + (p.Y / 30);
+        }
+
+        private void calculateEarnings_Click(object sender, RoutedEventArgs e)
+        {
+            if (salary.Text != null && cbCurrency.SelectedItem != null && salarType.SelectedItem != null && tbExpeness.Text != null)
+            {
+
+            }
+            else
+                MessageBox.Show("YOu have to fill up everything.", "Type error");
         }
     }
 }

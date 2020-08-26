@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Glora"
         mc:Ignorable="d"
         x:Name="windo"
@@ -33,7 +34,22 @@
             <Ellipse x:Name="ell2" Opacity="0.5" Grid.Row="4" Grid.RowSpan="2" Grid.Column="1" Width="50" Height="40" Fill="#FF56B1F0"/>
             <Ellipse x:Name="ell3" Opacity="0.5" Grid.Row="7" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="100" Height="70" Fill="#FF56B1F0"/>
             <Ellipse x:Name="ell4" Opacity="0.5" Grid.Row="9" Grid.Column="3" Grid.RowSpan="3" Width="50" Height="130" Fill="#FF56B1F0"/>
-            
+
+            <Label Content="Your salary is per: " Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"></Label>
+            <ComboBox x:Name="salarType" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" BorderBrush="Black" FontSize="18" OpacityMask="White" Background="White"></ComboBox>
+
+            <Label Content="Your actual salary:" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"></Label>
+            <TextBox x:Name="salary" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" BorderBrush="Black" FontSize="18"></TextBox>
+
+            <Label Content="In which currency?" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"></Label>
+            <ComboBox x:Name="cbCurrency" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Margin="5" BorderBrush="Black" FontSize="18" OpacityMask="White" Background="White"></ComboBox>
+
+            <Label Content="Your month expenses: (in that currency)" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"></Label>
+            <TextBox x:Name="tbExpeness" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1" Margin="5" BorderBrush="Black" FontSize="18" OpacityMask="White"></TextBox>
+
+            <Button IsEnabled="True" x:Name="calculateEarnings" Click="calculateEarnings_Click" Margin="60,0,60,0" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Background="#FF02CD02">
+                <materialDesign:PackIcon Kind="Dollar" Width="50" Height="30"/>
+            </Button>
         </Grid>
     </Border>
 </Window>
