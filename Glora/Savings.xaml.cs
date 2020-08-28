@@ -10,6 +10,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Windows.Shapes;
 
 namespace Glora
@@ -79,6 +81,24 @@ namespace Glora
                     else
                         MessageBox.Show("YOu have to fill up everything.", "Type error");
                 }
+                else if (salarType.SelectedItem.ToString() == "Per day")
+                {
+                    sa = salary.Text;
+                    ex = tbExpeness.Text;
+                    currType = cbCurrency.SelectedItem.ToString();
+                    perHour = salarType.SelectedItem.ToString();
+                    workingHours = tbWorkingHour.Text;
+
+                    int yearSalary = 0;
+                    int expeness = 0;
+
+                    yearSalary = CalculateErnings(perHour, Convert.ToInt32(sa), Convert.ToInt32(workingHours));
+                    expeness = CalculateExpeness(Convert.ToInt32(ex));
+                    int realOwn = yearSalary - expeness;
+
+                    result.Text = "With salary " + sa + " (" + currType + ") " + perHour + " you are erning " + yearSalary.ToString() + "(" + currType + ") per year. But infact, your expeness will be " + expeness + "(" + currType + ") , so your real own money is " + realOwn + "(" + currType + ") per year.";
+
+                }
                 else
                 {
                     sa = salary.Text;
@@ -95,6 +115,7 @@ namespace Glora
                     int realOwn = yearSalary - expeness;
 
                     result.Text = "With salary " + sa + " (" + currType + ") " + perHour + " you are erning " + yearSalary.ToString() + "(" + currType + ") per year. But infact, your expeness will be " + expeness + "(" + currType + ") , so your real own money is " + realOwn + "(" + currType + ") per year.";
+                    
 
                 }
             }
@@ -107,12 +128,14 @@ namespace Glora
             if (salarType.SelectedItem.ToString() == "Per hour")
             {
                 lblWorking.Visibility = Visibility.Visible;
+                lblWorking.Content = "How many hours per week you working? ";
                 tbWorkingHour.Visibility = Visibility.Visible;
             }
             else if (salarType.SelectedItem.ToString() == "Per day")
             {
-                lblWorking.Visibility = Visibility.Hidden;
-                tbWorkingHour.Visibility = Visibility.Hidden;
+                lblWorking.Visibility = Visibility.Visible;
+                lblWorking.Content = "How many days per week are you working? ";
+                tbWorkingHour.Visibility = Visibility.Visible;
             }
             else if (salarType.SelectedItem.ToString() == "Per month")
             {
@@ -126,9 +149,9 @@ namespace Glora
             int res = 0;
 
             if (type == "Per hour")
-                res = hours * 5 * 4 * 12 * salary;
+                res = hours * 4 * 12 * salary;
             else if (type == "Per day")
-                res = salary * 5 * 4 * 12;
+                res = salary * hours * 4 * 12;
             else
                 res = salary * 12;
 

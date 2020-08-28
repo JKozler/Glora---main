@@ -84,7 +84,7 @@
                     <RowDefinition Height="5*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox IsEnabled="False" MouseDoubleClick="tbFileOpenInfo_MouseDoubleClick" Grid.Row="0" x:Name="tbFileOpenInfo" Foreground="White"></TextBox>
+                <TextBox TextWrapping="WrapWithOverflow" IsEnabled="False" MouseDoubleClick="tbFileOpenInfo_MouseDoubleClick" Grid.Row="0" x:Name="tbFileOpenInfo" Foreground="White"></TextBox>
                 <Button Grid.Row="1" x:Name="btnSaveReadingFile" Click="btnSaveReadingFile_Click" ToolTip="If you change the file, save it here" IsEnabled="False" Content="Save" BorderBrush="#FF959595" Background="LightGray"></Button>
             </Grid>
         </Border>

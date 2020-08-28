@@ -48,7 +48,7 @@
             <Label Content="Your month expenses: (in that currency)" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"></Label>
             <TextBox x:Name="tbExpeness" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" Margin="5" BorderBrush="Black" FontSize="18" OpacityMask="White"></TextBox>
 
-            <Label Visibility="Hidden" x:Name="lblWorking" Content="How many hours per day are you working? " Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"></Label>
+            <Label Visibility="Hidden" x:Name="lblWorking" Content="How many hours per week you working? " Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"></Label>
             <TextBox Visibility="Hidden" x:Name="tbWorkingHour" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1" Margin="5" BorderBrush="Black" FontSize="18" OpacityMask="White"></TextBox>
 
             <Button IsEnabled="True" x:Name="calculateEarnings" Click="calculateEarnings_Click" Margin="60,0,60,0" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Background="#FF02CD02">
