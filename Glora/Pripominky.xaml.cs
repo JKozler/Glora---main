@@ -68,7 +68,38 @@ namespace Glora
 
         private void delete_Click(object sender, RoutedEventArgs e)
         {
-
+            List<string> projects = new List<string>();
+            if (lblRemind.SelectedItem.ToString() != null)
+            {
+                File.Delete(lblRemind.SelectedItem.ToString());
+                if (File.Exists("remind.txt"))
+                {
+                    using (StreamReader sr = new StreamReader("remind.txt"))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            string s = line + ".obr";
+                            if (s == lblRemind.SelectedItem.ToString())
+                            { }
+                            else
+                            {
+                                projects.Add(line);
+                            }
+                        }
+                    }
+                }
+                Stream stream = new FileStream("remind.txt", FileMode.Create);
+                lblRemind.Items.Clear();
+                using (StreamWriter sw = new StreamWriter(stream))
+                {
+                    foreach (string item in projects)
+                    {
+                        lblRemind.Items.Add(item + ".obr");
+                        sw.WriteLine(item);
+                    }
+                }
+            }
         }
 
         private void btnSaveFile_Click(object sender, RoutedEventArgs e)
