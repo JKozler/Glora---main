@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Shapes;
+using RestSharp;
 
 namespace Glora
 {
@@ -114,7 +115,7 @@ namespace Glora
                     expeness = CalculateExpeness(Convert.ToInt32(ex));
                     int realOwn = yearSalary - expeness;
 
-                    result.Text = "With salary " + sa + " (" + currType + ") " + perHour + " you are erning " + yearSalary.ToString() + "(" + currType + ") per year. But infact, your expeness will be " + expeness + "(" + currType + ") , so your real own money is " + realOwn + "(" + currType + ") per year.";
+                    result.Text = "With salary " + sa + " (" + currType + ") " + perHour + " you are erning " + yearSalary.ToString() + "(" + currType + ") per year. But infact, your expeness will be " + expeness + "(" + currType + ") , so your real own money is " + realOwn + "(" + currType + ") per year." + ActualPriceOf();
                     
 
                 }
@@ -160,6 +161,15 @@ namespace Glora
         public int CalculateExpeness(int expeness)
         {
             return expeness * 12;
+        }
+        public string ActualPriceOf()
+        {
+            var client = new RestClient("https://www.goldapi.io/api/XAU/USD");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("x-access-token", "goldapi-3z1wxykee9avny-io");
+            request.AddHeader("Content-Type", "application/json");
+            IRestResponse response = client.Execute(request);
+            return response.Content;
         }
     }
 }
