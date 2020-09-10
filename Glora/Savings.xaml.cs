@@ -162,6 +162,8 @@ namespace Glora
         {
             return expeness * 12;
         }
+
+        //Arrange to Google Api to know price of Gold (or silver - change a RestClient url)
         public string ActualPriceOf()
         {
             var client = new RestClient("https://www.goldapi.io/api/XAU/USD");

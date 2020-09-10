@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Speech;
+using System.Diagnostics;
 using System.IO;
 using GoogleApi;
 using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using System.Threading;
-using System.Diagnostics;
 using System.Windows.Media.Animation;
 using System.Reflection;
 using System.Net;
@@ -44,6 +44,7 @@ namespace Glora
         bool cantOpen = false;
         bool problems = false;
         bool problemsHelp = false;
+        bool openFile = false;
         string name;
         bool anim = true;
         string[] motivate = { "The harder you work for something, the greater you’ll feel when you achieve it.", "Don’t stop when you’re tired. Stop when you’re done.", "Do something today that your future self will thank you for.", " Sometimes we’re tested not to show our weaknesses, but to discover our strengths.", "The key to success is to focus on goals, not obstacles.", "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", "It’s not whether you get knocked down, it’s whether you get up.", "If you have something to do today, don't do it and you will have one free day." };
@@ -292,7 +293,19 @@ namespace Glora
         {
             if (tbCommandForPeople.Text != "")
             {
-                if (problems == true)
+                if (openFile)
+                {
+                    if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    {
+                        Process.Start(path);
+                        ss.SpeakAsync("Sure sir!");
+                    }
+                    else
+                    {
+                        ss.SpeakAsync("OK");
+                    }
+                }
+                else if (problems == true)
                 {
                     if (cantOpen == true)
                     {
@@ -350,7 +363,42 @@ namespace Glora
                     FileW fileW = new FileW();
                     fileW.ShowDialog();
                 }
-                else if (tbCommandForPeople.Text.ToLower().Contains("read") || tbCommandForPeople.Text.ToLower().Contains("show"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("virus") || tbCommandForPeople.Text.ToLower().Contains("check for virus"))
+                {
+                    Process process = new Process();
+                    OpenFileDialog opf = new OpenFileDialog();
+                    ss.SpeakAsync("Choose file that you want to scan.");
+                    Nullable<bool> res = opf.ShowDialog();
+                    if (res == true)
+                    {
+                        path = opf.FileName;
+                    }
+                    var processStartInfo = new ProcessStartInfo("C:/Program Files/Windows Defender/MpCmdRun.exe")
+                    {
+                        Arguments = $"-Scan -ScanType 3 -File \"{path}\" -DisableRemediation",
+                        CreateNoWindow = true,
+                        ErrorDialog = false,
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        UseShellExecute = false
+                    };
+                    process.StartInfo = processStartInfo;
+                    process.Start();
+                    process.WaitForExit();
+                    if (process.ExitCode == 0)  //if it doesn't exist virus ,it returns 0 ,if not ,it returns 1    
+                    {
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("No issues found, you can open file.  Can I open it?");
+                        ss.SpeakAsync("No issues found, you can open file. Can I open it?");
+                        openFile = true;
+                    }
+                    else
+                    {
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("I found some problems sir....");
+                        ss.SpeakAsync("I found some problems sir... You can open it, but i dont recomanded to you that. It can be problem in softwers, which has nothing problems, but the source is not verified.");
+                    }
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("read") || tbCommandForPeople.Text.ToLower().Contains("show") || tbCommandForPeople.Text.ToLower().Contains("open"))
                 {
                     tbFileOpenInfo.Clear();
                     allTxt = "";
