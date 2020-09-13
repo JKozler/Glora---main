@@ -44,6 +44,7 @@ namespace Glora
         bool cantOpen = false;
         bool problems = false;
         bool problemsHelp = false;
+        bool shutProgramDown = false;
         bool openFile = false;
         string name;
         bool anim = true;
@@ -310,6 +311,29 @@ namespace Glora
                     if (cantOpen == true)
                     {
                     }
+                    else if (shutProgramDown == true)
+                    {
+                        Process[] runningProcesses = Process.GetProcesses();
+                        foreach (Process process in runningProcesses)
+                        {
+                            foreach (ProcessModule module in process.Modules)
+                            {
+                                if (module.FileName.Equals(tbCommandForPeople.Text))
+                                {
+                                    process.Kill();
+                                    ss.SpeakAsync("Process was successfully killed.");
+                                    gloraSay.Items.Add("");
+                                    gloraSay.Items.Add("Process was successfully killed.");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Sorry, I can not fint your file..", "Ehmmm..");
+                                }
+                            }
+                        }
+                        shutProgramDown = false;
+                        problems = false;
+                    }
                     else if (tbCommandForPeople.Text.ToLower().Contains("processor") || tbCommandForPeople.Text.ToLower().Contains("lag") || tbCommandForPeople.Text.ToLower().Contains("bug"))
                     {
                         problems = false;
@@ -317,6 +341,13 @@ namespace Glora
                         gloraSay.Items.Add("");
                         gloraSay.Items.Add("Can I restart your machine? <yes/no>");
                         problemsHelp = true;
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("program") && tbCommandForPeople.Text.ToLower().Contains("shut") || tbCommandForPeople.Text.ToLower().Contains("close"))
+                    {
+                        shutProgramDown = true;
+                        ss.SpeakAsync("Please write exact name of the progrma or file.");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("Please write exact name of the progrma/file.");
                     }
                     else if (tbCommandForPeople.Text.ToLower().Contains("program") || tbCommandForPeople.Text.ToLower().Contains("open"))
                     {
@@ -538,8 +569,13 @@ namespace Glora
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("close"))
                 {
-                    ss.Speak("See you later!");
-                    this.Close();
+                    if (problems == true) { }
+                    else
+                    {
+                        ss.Speak("See you later!");
+                        this.Close();
+                    }
+                   
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("calculator"))
                 {
