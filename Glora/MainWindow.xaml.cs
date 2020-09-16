@@ -466,6 +466,12 @@ namespace Glora
                     ss.SpeakAsync("I am minimazing myself!");
                     wind.WindowState = WindowState.Minimized;
                 }
+                else if (tbCommandForPeople.Text.ToLower().Contains("how are you"))
+                {
+                    ss.SpeakAsync("Thanks for asking sir, I am realy fine!");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("Thanks for asking sir, I am realy fine!");
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi") || tbCommandForPeople.Text.ToLower().Contains("hey") || tbCommandForPeople.Text.ToLower().Contains("glora"))
                 {
                     Random random = new Random();
