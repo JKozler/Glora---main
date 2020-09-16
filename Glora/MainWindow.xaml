@@ -65,7 +65,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Button IsEnabled="False" x:Name="webPageCode" Click="webPageCode_Click" Panel.ZIndex="2" Content="Show page code" BorderBrush="White"></Button>
-                <Button Grid.Row="1" IsEnabled="True" x:Name="pripominky" Click="pripominky_Click" Panel.ZIndex="2" Content="Brain" BorderBrush="White"></Button>
+                <Button Grid.Row="1" IsEnabled="True" x:Name="pripominky" Click="pripominky_Click" Panel.ZIndex="2" Content="Threads" BorderBrush="White"></Button>
             </Grid>
         </Border>
         <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
