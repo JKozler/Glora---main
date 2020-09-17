@@ -41,12 +41,38 @@ namespace Glora
                 }
             }
             else { }
+            if (File.Exists("doneTasks.txt"))
+            {
+                using (StreamReader sr = new StreamReader("doneTasks.txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        lblDone.Items.Add(line);
+                    }
+                }
+            }
+            else { }
+            if (File.Exists("missTasks.txt"))
+            {
+                using (StreamReader sr = new StreamReader("missTasks.txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        lblMiss.Items.Add(line);
+                    }
+                }
+            }
+            else { }
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
         {
             if (lblRemind.SelectedItem.ToString() != null)
             {
+                txtRemind.Clear();
+                fileName.Clear();
                 otherEdit.IsEnabled = true;
                 name = lblRemind.SelectedItem.ToString();
                 fileName.Text = lblRemind.SelectedItem.ToString();
@@ -63,6 +89,8 @@ namespace Glora
 
         private void create_Click(object sender, RoutedEventArgs e)
         {
+            txtRemind.Clear();
+            fileName.Clear();
             otherEdit.IsEnabled = true;
         }
 
@@ -79,7 +107,7 @@ namespace Glora
                         string line;
                         while ((line = sr.ReadLine()) != null)
                         {
-                            string s = line + ".obr";
+                            string s = line;
                             if (s == lblRemind.SelectedItem.ToString())
                             { }
                             else
@@ -95,10 +123,11 @@ namespace Glora
                 {
                     foreach (string item in projects)
                     {
-                        lblRemind.Items.Add(item + ".obr");
+                        lblRemind.Items.Add(item + ".txt");
                         sw.WriteLine(item);
                     }
                 }
+                lblRemind.Items.Remove(lblRemind.SelectedItem);
             }
         }
 
@@ -112,17 +141,104 @@ namespace Glora
                     Stream stream = new FileStream("remind.txt", FileMode.Append);
                     using (StreamWriter sw = new StreamWriter(stream))
                     {
-                        sw.WriteLine(fileName.Text);
+                        sw.WriteLine(fileName.Text + ".txt");
                     }
                 }
-                Stream stream1 = new FileStream(fileName.Text, FileMode.Create);
+                Stream stream1 = new FileStream(fileName.Text + ".txt", FileMode.Create);
                 using (StreamWriter sw = new StreamWriter(stream1))
                 {
                     sw.WriteLine(txtRemind.Text);
                 }
+                lblRemind.Items.Add(fileName.Text + ".txt");
             }
             else
                 MessageBox.Show("Enter name.", "Missing name.");
+        }
+
+        private void done_Click(object sender, RoutedEventArgs e)
+        {
+            if (fileName.Text != null)
+            {
+                Stream stream = new FileStream("doneTasks.txt", FileMode.Append);
+                using (StreamWriter sw = new StreamWriter(stream))
+                {
+                    sw.WriteLine(fileName.Text);
+                }
+
+                List<string> projects = new List<string>();
+                File.Delete(fileName.Text);
+                if (File.Exists("remind.txt"))
+                {
+                    using (StreamReader sr = new StreamReader("remind.txt"))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            string s = line;
+                            if (s == fileName.Text)
+                            { }
+                            else
+                            {
+                                projects.Add(line);
+                            }
+                        }
+                    }
+                }
+                Stream stream2 = new FileStream("remind.txt", FileMode.Create);
+                lblRemind.Items.Clear();
+                using (StreamWriter sw = new StreamWriter(stream2))
+                {
+                    foreach (string item in projects)
+                    {
+                        lblRemind.Items.Add(item + ".txt");
+                        sw.WriteLine(item);
+                    }
+                }
+                lblDone.Items.Add(fileName.Text);
+            }
+        }
+
+        private void miss_Click(object sender, RoutedEventArgs e)
+        {
+            if (fileName.Text != null)
+            {
+                Stream stream = new FileStream("missTasks.txt", FileMode.Append);
+                using (StreamWriter sw = new StreamWriter(stream))
+                {
+                    sw.WriteLine(fileName.Text);
+                }
+
+                List<string> projects = new List<string>();
+                File.Delete(fileName.Text);
+                if (File.Exists("remind.txt"))
+                {
+                    using (StreamReader sr = new StreamReader("remind.txt"))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            string s = line;
+                            if (s == fileName.Text)
+                            { }
+                            else
+                            {
+                                projects.Add(line);
+                            }
+                        }
+                    }
+                }
+                Stream stream2 = new FileStream("remind.txt", FileMode.Create);
+                lblRemind.Items.Clear();
+                using (StreamWriter sw = new StreamWriter(stream2))
+                {
+                    foreach (string item in projects)
+                    {
+                        lblRemind.Items.Add(item + ".txt");
+                        sw.WriteLine(item);
+                    }
+                }
+                lblMiss.Items.Add(fileName.Text);
+            }
         }
     }
 }
