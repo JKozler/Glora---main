@@ -45,6 +45,9 @@ namespace Glora
         bool problems = false;
         bool problemsHelp = false;
         bool shutProgramDown = false;
+        bool howToProgram = false;
+        bool beginerProgrammer = false;
+        bool pythonRedirect = false;
         bool openFile = false;
         string name;
         bool anim = true;
@@ -294,22 +297,84 @@ namespace Glora
         {
             if (tbCommandForPeople.Text != "")
             {
-                if (openFile)
+                if (pythonRedirect)
+                {
+                    if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    {
+                        Process.Start("chrome", "https://www.python.org/downloads/");
+                        ss.SpeakAsync("Click on the yellow button, after success download and opening that file, type YES.");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("After success download, and opening the program, type yes.");
+                    }
+                    else
+                    {
+                        ss.SpeakAsync("Allright sir!");
+                        howToProgram = false;
+                        beginerProgrammer = false;
+                        pythonRedirect = false;
+                        pythonRedirect = false;
+                    }
+                }
+                else if (beginerProgrammer)
+                {
+                    if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    {
+                        ss.SpeakAsync("Then I will recomand you to learn Python for first language. Do you want to continue?");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("I will redirect you to the python page. <yes/no>");
+                        pythonRedirect = true;
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("done"))
+                    {
+                        ss.SpeakAsync("Allright sir!");
+                        howToProgram = false;
+                        beginerProgrammer = false;
+                    }
+                    else
+                    {
+                        ss.SpeakAsync("OK, but you know i can do that!");
+                    }
+                }
+                else if (howToProgram == true)
+                {
+                    if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    {
+                        ss.SpeakAsync("I am really glad sir! If you want to leave this mode, type DONE.");
+                        ss.SpeakAsync("Programming is hard thing, but you can learn it in some way. Tell me, are you really a beginner?");
+                        ss.SpeakAsync("That means you don't know what is array, variable like string, intieger etc ?");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("Tell me, are you really a beginner? <yes/no>");
+                        beginerProgrammer = true;
+                    }
+                    else
+                    {
+                        ss.SpeakAsync("OK, but you know i can do that!");
+                        howToProgram = false;
+                    }
+                }
+                else if (openFile)
                 {
                     if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
                     {
                         Process.Start(path);
                         ss.SpeakAsync("Sure sir!");
+                        shutProgramDown = false;
+                        problems = false;
+                        openFile = false;
                     }
                     else
                     {
                         ss.SpeakAsync("OK");
+                        shutProgramDown = false;
+                        problems = false;
+                        openFile = false;
                     }
                 }
                 else if (problems == true)
                 {
                     if (cantOpen == true)
                     {
+                        ss.SpeakAsync("Sorry I can't shut down it...");
                     }
                     else if (shutProgramDown == true)
                     {
@@ -327,7 +392,7 @@ namespace Glora
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Sorry, I can not fint your file..", "Ehmmm..");
+                                    MessageBox.Show("Sorry, I can not find your file..", "Ehmmm..");
                                 }
                             }
                         }
@@ -364,7 +429,7 @@ namespace Glora
                     else if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("jop") || tbCommandForPeople.Text.ToLower().Contains("of course") || tbCommandForPeople.Text.ToLower().Contains("can do"))
                     {
                         Process.Start("shutdown.exe", "-r");
-                        ss.SpeakAsync("Ok, please wait little moment.");
+                        ss.SpeakAsync("Ok, please wait a little moment.");
                     }
                 }
                 if (tbCommandForPeople.Text.ToLower().Contains("have") && tbCommandForPeople.Text.ToLower().Contains("problem"))
@@ -372,9 +437,9 @@ namespace Glora
                     problems = true;
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("Type something like lag/bug/memory/storage etc..");
-                    ss.SpeakAsync("What kind of problem you have?");
+                    ss.SpeakAsync("What kind of problem you have? If you want to leave solving problem, type DONE.");
                 }
-                if (tbCommandForPeople.Text.ToLower().Contains("saving program") || tbCommandForPeople.Text.ToLower().Contains("calculate my savings") || tbCommandForPeople.Text.ToLower().Contains("calculate saving"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("saving program") || tbCommandForPeople.Text.ToLower().Contains("calculate my savings") || tbCommandForPeople.Text.ToLower().Contains("calculate saving"))
                 {
                     ss.SpeakAsync("I am opening my special software for that, sir.");
                     gloraSay.Items.Add("");
@@ -393,6 +458,13 @@ namespace Glora
                     wind.WindowState = WindowState.Minimized;
                     FileW fileW = new FileW();
                     fileW.ShowDialog();
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("how to program") || tbCommandForPeople.Text.ToLower().Contains("learn programming") || tbCommandForPeople.Text.ToLower().Contains("learn program") || tbCommandForPeople.Text.ToLower().Contains("want to program application") || tbCommandForPeople.Text.ToLower().Contains("create application") || tbCommandForPeople.Text.ToLower().Contains("create program"))
+                {
+                    ss.SpeakAsync("If you want to learn how to program, type yes.");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("If you want to learn how to program, type yes.");
+                    howToProgram = true;
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("virus") || tbCommandForPeople.Text.ToLower().Contains("check for virus"))
                 {
@@ -415,7 +487,7 @@ namespace Glora
                     process.StartInfo = processStartInfo;
                     process.Start();
                     process.WaitForExit();
-                    if (process.ExitCode == 0)  //if it doesn't exist virus ,it returns 0 ,if not ,it returns 1    
+                    if (process.ExitCode == 0)
                     {
                         gloraSay.Items.Add("");
                         gloraSay.Items.Add("No issues found, you can open file.  Can I open it?");
