@@ -73,7 +73,10 @@ namespace Glora
             {
                 txtRemind.Clear();
                 fileName.Clear();
-                otherEdit.IsEnabled = true;
+                txtRemind.IsEnabled = true;
+                nameOfTask.IsEnabled = true;
+                btnSaveFile.IsEnabled = true;
+                fileName.IsEnabled = true;
                 name = lblRemind.SelectedItem.ToString();
                 fileName.Text = lblRemind.SelectedItem.ToString();
                 using (StreamReader sr = new StreamReader(lblRemind.SelectedItem.ToString()))
@@ -91,7 +94,10 @@ namespace Glora
         {
             txtRemind.Clear();
             fileName.Clear();
-            otherEdit.IsEnabled = true;
+            txtRemind.IsEnabled = true;
+            nameOfTask.IsEnabled = true;
+            btnSaveFile.IsEnabled = true;
+            fileName.IsEnabled = true;
         }
 
         private void delete_Click(object sender, RoutedEventArgs e)
@@ -135,21 +141,67 @@ namespace Glora
         {
             if (fileName.Text != null)
             {
-                if (name == fileName.Text){}
+                if (fileName.Text.Contains(".txt"))
+                {
+                    if (name == fileName.Text) { }
+                    else
+                    {
+                        Stream stream = new FileStream("remind.txt", FileMode.Append);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            sw.WriteLine(fileName.Text);
+                        }
+                    }
+                    Stream stream1 = new FileStream(fileName.Text, FileMode.Create);
+                    using (StreamWriter sw = new StreamWriter(stream1))
+                    {
+                        sw.WriteLine(txtRemind.Text);
+                    }
+                    lblRemind.Items.Clear();
+                    if (File.Exists("remind.txt"))
+                    {
+                        using (StreamReader sr = new StreamReader("remind.txt"))
+                        {
+                            string line;
+                            while ((line = sr.ReadLine()) != null)
+                            {
+                                lblRemind.Items.Add(line);
+                            }
+                        }
+                    }
+                    else { }
+                }
                 else
                 {
-                    Stream stream = new FileStream("remind.txt", FileMode.Append);
-                    using (StreamWriter sw = new StreamWriter(stream))
+                    if (name == fileName.Text) { }
+                    else
                     {
-                        sw.WriteLine(fileName.Text + ".txt");
+                        Stream stream = new FileStream("remind.txt", FileMode.Append);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            sw.WriteLine(fileName.Text + ".txt");
+                        }
                     }
+                    Stream stream1 = new FileStream(fileName.Text + ".txt", FileMode.Create);
+                    using (StreamWriter sw = new StreamWriter(stream1))
+                    {
+                        sw.WriteLine(txtRemind.Text);
+                    }
+                    lblRemind.Items.Clear();
+                    if (File.Exists("remind.txt"))
+                    {
+                        using (StreamReader sr = new StreamReader("remind.txt"))
+                        {
+                            string line;
+                            while ((line = sr.ReadLine()) != null)
+                            {
+                                lblRemind.Items.Add(line);
+                            }
+                        }
+                    }
+                    else { }
                 }
-                Stream stream1 = new FileStream(fileName.Text + ".txt", FileMode.Create);
-                using (StreamWriter sw = new StreamWriter(stream1))
-                {
-                    sw.WriteLine(txtRemind.Text);
-                }
-                lblRemind.Items.Add(fileName.Text + ".txt");
+                
             }
             else
                 MessageBox.Show("Enter name.", "Missing name.");
@@ -166,7 +218,6 @@ namespace Glora
                 }
 
                 List<string> projects = new List<string>();
-                File.Delete(fileName.Text);
                 if (File.Exists("remind.txt"))
                 {
                     using (StreamReader sr = new StreamReader("remind.txt"))
@@ -195,6 +246,8 @@ namespace Glora
                     }
                 }
                 lblDone.Items.Add(fileName.Text);
+                txtRemind.Clear();
+                fileName.Clear();
             }
         }
 
@@ -238,7 +291,44 @@ namespace Glora
                     }
                 }
                 lblMiss.Items.Add(fileName.Text);
+                txtRemind.Clear();
+                fileName.Clear();
             }
+        }
+
+        private void loadDone_Click(object sender, RoutedEventArgs e)
+        {
+            if (lblDone.SelectedItem != null)
+            {
+                using (StreamReader sr = new StreamReader(lblDone.SelectedItem.ToString()))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        txtRemind.Text += line;
+                    }
+                }
+                txtRemind.IsEnabled = true;
+                nameOfTask.IsEnabled = true;
+                btnSaveFile.IsEnabled = true;
+                fileName.IsEnabled = true;
+            }
+            else if (lblDone.SelectedItem != null)
+            {
+                using (StreamReader sr = new StreamReader(lblDone.SelectedItem.ToString()))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        txtRemind.Text += line;
+                    }
+                }
+                txtRemind.IsEnabled = true;
+                nameOfTask.IsEnabled = true;
+                btnSaveFile.IsEnabled = true;
+                fileName.IsEnabled = true;
+            }
+            else { }
         }
     }
 }

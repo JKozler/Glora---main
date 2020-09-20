@@ -47,6 +47,7 @@ namespace Glora
         bool shutProgramDown = false;
         bool howToProgram = false;
         bool beginerProgrammer = false;
+        bool startPython = false;
         bool pythonRedirect = false;
         bool openFile = false;
         string name;
@@ -104,7 +105,6 @@ namespace Glora
                 speak = false;
             }
         }
-
         private void Sre_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             while (anim)
@@ -292,19 +292,37 @@ namespace Glora
             dictateTb.Items.Add("You: " + s);
             dictateTb.Items.Add(" ");
         }
-
         private void dictateBtn_Click(object sender, RoutedEventArgs e)
         {
             if (tbCommandForPeople.Text != "")
             {
                 if (pythonRedirect)
                 {
-                    if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    if (startPython)
+                    {
+                        if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                        {
+                            ss.SpeakAsync("Nice. Now I will play video for learning.");
+                            gloraSay.Items.Add("");
+                            gloraSay.Items.Add("Video loading...");
+                        }
+                        else
+                        {
+                            ss.SpeakAsync("Allright sir!");
+                            howToProgram = false;
+                            beginerProgrammer = false;
+                            pythonRedirect = false;
+                            pythonRedirect = false;
+                            startPython = false;
+                        }
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
                     {
                         Process.Start("chrome", "https://www.python.org/downloads/");
                         ss.SpeakAsync("Click on the yellow button, after success download and opening that file, type YES.");
                         gloraSay.Items.Add("");
                         gloraSay.Items.Add("After success download, and opening the program, type yes.");
+                        startPython = true;
                     }
                     else
                     {
@@ -706,6 +724,44 @@ namespace Glora
                     string g = tbCommandForPeople.Text.Replace(' ', '+');
                     ss.SpeakAsync("Okay sir, I am searching for it");
                     int y = g.IndexOf("f") + 4;
+                    search = g.Substring(y);
+
+                    string urlAddress = "https://www.google.com/search?q=" + search;
+
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Stream receiveStream = response.GetResponseStream();
+                        StreamReader readStream = null;
+
+                        if (response.CharacterSet == null)
+                        {
+                            readStream = new StreamReader(receiveStream);
+                        }
+                        else
+                        {
+                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        }
+
+                        Stream stream = new FileStream("web.txt", FileMode.Create);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            sw.WriteLine(readStream.ReadToEnd());
+                        }
+                        response.Close();
+                        readStream.Close();
+                    }
+                    webPageCode.IsEnabled = true;
+
+                    Process.Start("chrome", "https://www.google.com/search?q=" + search);
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("who is "))
+                {
+                    string g = tbCommandForPeople.Text.Replace(' ', '+');
+                    ss.SpeakAsync("Okay sir, I am searching for it");
+                    int y = g.IndexOf("s") + 2;
                     search = g.Substring(y);
 
                     string urlAddress = "https://www.google.com/search?q=" + search;

@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Glora"
         mc:Ignorable="d"
-        Title="Task manager" Height="450" Width="800">
+        Title="Long tasks" Height="450" Width="800">
     <Border>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
                 </Grid>
             </Border>
             <Border Grid.Column="1" Background="Black"></Border>
-            <Border x:Name="otherEdit" IsEnabled="False" Grid.Column="2">
+            <Border x:Name="otherEdit" Grid.Column="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12*"/>
@@ -59,7 +59,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox TextWrapping="WrapWithOverflow"  Grid.Row="0" x:Name="txtRemind"></TextBox>
+                    <TextBox IsEnabled="False" TextWrapping="WrapWithOverflow" Grid.Row="0" x:Name="txtRemind"></TextBox>
                     <Border Grid.Row="1" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -70,9 +70,9 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="Name of task:" FontWeight="Bold" FontSize="15"></Label>
-                            <TextBox Grid.Column="1" Margin="2" x:Name="fileName" Grid.ColumnSpan="2" BorderBrush="Black"></TextBox>
-                            <Button Click="btnSaveFile_Click" Margin="10,0,50,0" x:Name="btnSaveFile" Grid.Column="3" Background="#FF96C0E4">
+                            <Label x:Name="nameOfTask" IsEnabled="False" Content="Name of task:" FontWeight="Bold" FontSize="15"></Label>
+                            <TextBox IsEnabled="False" Grid.Column="1" Margin="2" x:Name="fileName" Grid.ColumnSpan="2" BorderBrush="Black"></TextBox>
+                            <Button IsEnabled="False" Click="btnSaveFile_Click" Margin="10,0,50,0" x:Name="btnSaveFile" Grid.Column="3" Background="#FF96C0E4">
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </Button>
                             <Button x:Name="done" Click="done_Click" Grid.Column="4" Margin="60,0,0,0" Background="GreenYellow">
@@ -80,6 +80,9 @@
                             </Button>
                             <Button Grid.Column="5" Margin="0,0,60,0" x:Name="miss" Click="miss_Click" Background="#FFFF5656">
                                 <materialDesign:PackIcon Kind="Clear" Width="15" Height="15"/>
+                            </Button>
+                            <Button Grid.Column="5" Margin="60,0,0,0" x:Name="loadDone" Click="loadDone_Click" Background="#FF43B2FF">
+                                <materialDesign:PackIcon Kind="Reload" Width="15" Height="15"/>
                             </Button>
                         </Grid>
                     </Border>
