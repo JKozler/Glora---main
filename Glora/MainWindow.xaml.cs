@@ -48,6 +48,8 @@ namespace Glora
         bool howToProgram = false;
         bool beginerProgrammer = false;
         bool startPython = false;
+        bool startC = false;
+        bool cRedirect = false;
         bool pythonRedirect = false;
         bool openFile = false;
         string name;
@@ -296,7 +298,47 @@ namespace Glora
         {
             if (tbCommandForPeople.Text != "")
             {
-                if (pythonRedirect)
+                if (cRedirect)
+                {
+                    if (startC)
+                    {
+                        if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                        {
+                            ss.SpeakAsync("Excelent! Now, I will redirect you to our programmer learner. If somthing will be wrong, conact me Sir!");
+                            gloraSay.Items.Add("");
+                            gloraSay.Items.Add("Redirect to learner YT chanell.");
+                            Process.Start("chrome", "https://www.youtube.com/watch?v=GjjYlYUsO6s");
+                        }
+                        else
+                        {
+                            ss.SpeakAsync("Allright sir!");
+                            howToProgram = false;
+                            beginerProgrammer = false;
+                            pythonRedirect = false;
+                            pythonRedirect = false;
+                            cRedirect = false;
+                            startC = false;
+                        }
+                    }
+                    else if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    {
+                        Process.Start("chrome", "https://visualstudio.microsoft.com/cs/vs/");
+                        ss.SpeakAsync("Click on the download button and download Community version, after successfull download and opening that file type yes.");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("After open Visual Studio - type yes.");
+                        startC = true;
+                    }
+                    else
+                    {
+                        ss.SpeakAsync("Allright sir!");
+                        howToProgram = false;
+                        beginerProgrammer = false;
+                        pythonRedirect = false;
+                        pythonRedirect = false;
+                        cRedirect = false;
+                    }
+                }
+                else if (pythonRedirect)
                 {
                     if (startPython)
                     {
@@ -350,7 +392,10 @@ namespace Glora
                     }
                     else
                     {
-                        ss.SpeakAsync("OK, but you know i can do that!");
+                        ss.SpeakAsync("Nice, so I recomanded to you a C#! I will redirect you to the page from microsoft for IDE to program");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("I will redirect you to the microsoft page. <yes/no>");
+                        cRedirect = true;
                     }
                 }
                 else if (howToProgram == true)
@@ -477,7 +522,7 @@ namespace Glora
                     FileW fileW = new FileW();
                     fileW.ShowDialog();
                 }
-                else if (tbCommandForPeople.Text.ToLower().Contains("how to program") || tbCommandForPeople.Text.ToLower().Contains("learn programming") || tbCommandForPeople.Text.ToLower().Contains("learn program") || tbCommandForPeople.Text.ToLower().Contains("want to program application") || tbCommandForPeople.Text.ToLower().Contains("create application") || tbCommandForPeople.Text.ToLower().Contains("create program"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("how to program") || tbCommandForPeople.Text.ToLower().Contains("learn programming") || tbCommandForPeople.Text.ToLower().Contains("learn program") || tbCommandForPeople.Text.ToLower().Contains("want to program application") || tbCommandForPeople.Text.ToLower().Contains("create application") || tbCommandForPeople.Text.ToLower().Contains("create software") || tbCommandForPeople.Text.ToLower().Contains("create a application") || tbCommandForPeople.Text.ToLower().Contains("create a software") || tbCommandForPeople.Text.ToLower().Contains("create program"))
                 {
                     ss.SpeakAsync("If you want to learn how to program, type yes.");
                     gloraSay.Items.Add("");
