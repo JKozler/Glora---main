@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        fw:AcrylicWindow.Enabled="True"
         xmlns:local="clr-namespace:Glora"
         mc:Ignorable="d"
         Title="Long tasks" Height="450" Width="800">
@@ -14,20 +16,13 @@
                 <ColumnDefinition Width="0.01*"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0">
+            <Border fw:PointerTracker.Enabled="True" Background="#01FFFFFF" Grid.Column="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" x:Name="lblRemind">
-                        <ListBox.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FFD9FF86"/>
-                                <GradientStop Color="White" Offset="1"/>
-                            </LinearGradientBrush>
-                        </ListBox.Background>
-                    </ListBox>
+                    <ListBox Grid.Row="0" x:Name="lblRemind"></ListBox>
                     <Border Grid.Row="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -102,7 +97,7 @@
                             <ListBox Grid.Row="0" Grid.Column="1" x:Name="lblDone">
                                 <ListBox.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="White" Offset="0.843"/>
+                                        <GradientStop Color="#01FFFFFF" Offset="0.1"/>
                                         <GradientStop Color="#FF65FF65"/>
                                     </LinearGradientBrush>
                                 </ListBox.Background>
@@ -111,7 +106,7 @@
                             <ListBox Grid.Column="1" Grid.Row="2" x:Name="lblMiss">
                                 <ListBox.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="White" Offset="0.863"/>
+                                        <GradientStop Color="#01FFFFFF" Offset="0.1"/>
                                         <GradientStop Color="#FFFF5353"/>
                                     </LinearGradientBrush>
                                 </ListBox.Background>

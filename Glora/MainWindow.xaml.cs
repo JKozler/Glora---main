@@ -607,6 +607,16 @@ namespace Glora
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("Thanks for asking sir, I am realy fine!");
                 }
+                else if (tbCommandForPeople.Text.ToLower().Contains("play"))
+                {
+                    string g = tbCommandForPeople.Text.ToLower().Replace(" ", "+");
+                    ss.SpeakAsync("Yeah, i am going to play it!");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("Yeah, i am going to play it!");
+                    int y = g.IndexOf("y") + 1;
+                    search = g.Substring(y);
+                    Process.Start("chrome", "https://www.youtube.com/results?search_query=" + search);
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi") || tbCommandForPeople.Text.ToLower().Contains("hey") || tbCommandForPeople.Text.ToLower().Contains("glora"))
                 {
                     Random random = new Random();
