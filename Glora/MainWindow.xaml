@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Glora"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="980"  Width="640" AllowsTransparency="True" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="MainWindow" Height="980" MouseDown="wind_MouseDown" Width="640" AllowsTransparency="True" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Background>
         <SolidColorBrush Opacity="0.9" Color="#FF323232"/>
     </Window.Background>
@@ -63,9 +63,14 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Button IsEnabled="False" x:Name="webPageCode" Click="webPageCode_Click" Panel.ZIndex="2" Content="Show page code" BorderBrush="White"></Button>
                 <Button Grid.Row="1" IsEnabled="True" x:Name="pripominky" Click="pripominky_Click" Panel.ZIndex="2" Content="Tasks" BorderBrush="White"></Button>
+                <Button Grid.Row="2" Panel.ZIndex="2" Content="Money saver" BorderBrush="White" x:Name="moneySaver" Click="moneySaver_Click" Background="LightGray"></Button>
+                <Button ToolTip="Back to programming lesson" x:Name="backProgramm" Click="backProgramm_Click" Visibility="Hidden" Grid.Row="3" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Computer" Width="50" Height="50"/>
+                </Button>
             </Grid>
         </Border>
         <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
@@ -102,6 +107,40 @@
                 <Button Visibility="Hidden" Content="Write" x:Name="dictateBtn" Click="dictateBtn_Click" Panel.ZIndex="2" Grid.Column="0" Grid.Row="0" Foreground="White" Background="Black" >
 
                 </Button>
+            </Grid>
+        </Border>
+        <Border Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.05*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.05*"/>
+                </Grid.RowDefinitions>
+                <Border Background="Black"></Border>
+                <Label Margin="10,0,0,0" Grid.Row="1" Content="Pin app bar" FontSize="24" FontWeight="Bold"></Label>
+                <materialDesign:PackIcon Grid.Row="1" Kind="Pin" ToolTip="There you can pin everything you want." HorizontalAlignment="Right" VerticalAlignment="Center" Width="50" Height="50"/>
+                <Button x:Name="plus1" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                    <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
+                </Button>
+                <Button x:Name="plus2" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                    <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
+                </Button>
+                <Button x:Name="plus3" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                    <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
+                </Button>
+                <Button x:Name="plus4" Click="plus1_Click" ToolTip="Add item to pin bar" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF57A416">
+                    <materialDesign:PackIcon Kind="Plus" Width="30" Height="30"/>
+                </Button>
+                <Button x:Name="plus1Btn" Click="plus1Btn_Click" Grid.Row="2" Visibility="Hidden" Background="#FFDDDDDD"></Button>
+                <Button x:Name="plus2Btn" Click="plus1Btn_Click" Grid.Row="3" Visibility="Hidden" Background="#FFDDDDDD"></Button>
+                <Button x:Name="plus3Btn" Click="plus1Btn_Click" Grid.Row="4" Visibility="Hidden" Background="#FFDDDDDD"></Button>
+                <Button x:Name="plus4Btn" Click="plus1Btn_Click" Grid.Row="5" Visibility="Hidden" Background="#FFDDDDDD"></Button>
+                
+                <Border Background="Black" Grid.Row="6"></Border>
             </Grid>
         </Border>
     </Grid>

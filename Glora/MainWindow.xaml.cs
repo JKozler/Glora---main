@@ -65,6 +65,21 @@ namespace Glora
             //wind.Height = SystemParameters.PrimaryScreenHeight;
             ss.SpeakAsync("Welcome back.");
             //ss.SelectVoiceByHints(VoiceGender.Male);
+            if (File.Exists("programing.txt"))
+            {
+                using (StreamReader sr = new StreamReader("programing.txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line == "true")
+                        {
+                            backProgramm.Visibility = Visibility.Visible;
+                        }
+                    }
+                }
+            }
+            CheckIfExistsPinApps();
         }
 
         private void speakBtn_Click(object sender, RoutedEventArgs e)
@@ -307,6 +322,11 @@ namespace Glora
                             ss.SpeakAsync("Excelent! Now, I will redirect you to our programmer learner. If somthing will be wrong, conact me Sir!");
                             gloraSay.Items.Add("");
                             gloraSay.Items.Add("Redirect to learner YT chanell.");
+                            Stream stream = new FileStream("programing.txt", FileMode.Append);
+                            using (StreamWriter sw = new StreamWriter(stream))
+                            {
+                                sw.WriteLine("true");
+                            }
                             Process.Start("chrome", "https://www.youtube.com/watch?v=GjjYlYUsO6s");
                         }
                         else
@@ -912,6 +932,137 @@ namespace Glora
             ss.SpeakAsync("I am opening your hard thinkies.");
             Pripominky pripominky = new Pripominky();
             pripominky.Show();
+        }
+
+        private void moneySaver_Click(object sender, RoutedEventArgs e)
+        {
+            ss.SpeakAsync("Enter what you need in the shelves and let the program do what it can.");
+            Savings savings = new Savings();
+            savings.ShowDialog();
+        }
+
+        private void wind_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void backProgramm_Click(object sender, RoutedEventArgs e)
+        {
+            ss.SpeakAsync("Now I'm redirecting you to our lecturer. You can choose any lesson you want.");
+            Process.Start("chrome", "https://www.youtube.com/watch?v=GjjYlYUsO6s&list=PLc8i1wXj7ZYMUKQ0rDX758dB7gEdKta5Q");
+        }
+
+        private void plus1_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button)sender;
+            OpenFileDialog opf = new OpenFileDialog();
+            if (opf.ShowDialog() == true)
+            {
+                string path = opf.FileName;
+                string file = System.IO.Path.GetFileName(path);
+                if (btn.Name == "plus1")
+                {
+                    plus1Btn.Visibility = Visibility.Visible;
+                    plus1Btn.Content = file;
+                    Stream stream = new FileStream("plus1Btn.txt", FileMode.Append);
+                    using (StreamWriter sw = new StreamWriter(stream))
+                        sw.WriteLine(path);
+                }
+                else if (btn.Name == "plus2")
+                {
+                    plus2Btn.Visibility = Visibility.Visible;
+                    plus2Btn.Content = file;
+                    Stream stream = new FileStream("plus2Btn.txt", FileMode.Append);
+                    using (StreamWriter sw = new StreamWriter(stream))
+                        sw.WriteLine(path);
+                }
+                else if (btn.Name == "plus3")
+                {
+                    plus3Btn.Visibility = Visibility.Visible;
+                    plus3Btn.Content = file;
+                    Stream stream = new FileStream("plus3Btn.txt", FileMode.Append);
+                    using (StreamWriter sw = new StreamWriter(stream))
+                        sw.WriteLine(path);
+                }
+                else if (btn.Name == "plus4")
+                {
+                    plus4Btn.Visibility = Visibility.Visible;
+                    plus4Btn.Content = file;
+                    Stream stream = new FileStream("plus4Btn.txt", FileMode.Append);
+                    using (StreamWriter sw = new StreamWriter(stream))
+                        sw.WriteLine(path);
+                }
+                btn.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void plus1Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button)sender;
+            using (StreamReader sr = new StreamReader(btn.Name + ".txt"))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    Process.Start(line);
+                }
+            }
+        }
+
+        public void CheckIfExistsPinApps()
+        {
+            if (File.Exists(plus1Btn.Name + ".txt"))
+            {
+                plus1.Visibility = Visibility.Hidden;
+                plus1Btn.Visibility = Visibility.Visible;
+                using (StreamReader sr = new StreamReader(plus1Btn.Name + ".txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        plus1Btn.Content = System.IO.Path.GetFileName(line);
+                    }
+                }
+            }
+            if (File.Exists(plus2Btn.Name + ".txt"))
+            {
+                plus2.Visibility = Visibility.Hidden;
+                plus2Btn.Visibility = Visibility.Visible;
+                using (StreamReader sr = new StreamReader(plus2Btn.Name + ".txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        plus2Btn.Content = System.IO.Path.GetFileName(line);
+                    }
+                }
+            }
+            if (File.Exists(plus3Btn.Name + ".txt"))
+            {
+                plus3.Visibility = Visibility.Hidden;
+                plus3Btn.Visibility = Visibility.Visible;
+                using (StreamReader sr = new StreamReader(plus3Btn.Name + ".txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        plus3Btn.Content = System.IO.Path.GetFileName(line);
+                    }
+                }
+            }
+            if (File.Exists(plus4Btn.Name + ".txt"))
+            {
+                plus4.Visibility = Visibility.Hidden;
+                plus4Btn.Visibility = Visibility.Visible;
+                using (StreamReader sr = new StreamReader(plus4Btn.Name + ".txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        plus4Btn.Content = System.IO.Path.GetFileName(line);
+                    }
+                }
+            }
         }
     }
 }
