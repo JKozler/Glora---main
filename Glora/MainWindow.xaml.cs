@@ -954,7 +954,7 @@ namespace Glora
 
         private void plus1_Click(object sender, RoutedEventArgs e)
         {
-            ss.SpeakAsync("You can pin here your favourite app or file sir.");
+            ss.SpeakAsync("You can pin here your favourite application or file sir.");
             Button btn = (Button)sender;
             OpenFileDialog opf = new OpenFileDialog();
             if (opf.ShowDialog() == true)
