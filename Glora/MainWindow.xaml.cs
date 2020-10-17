@@ -35,6 +35,7 @@ namespace Glora
         SpeechSynthesizer ss = new SpeechSynthesizer();
         PromptBuilder pb = new PromptBuilder();
         SpeechRecognitionEngine sre = new SpeechRecognitionEngine();
+        List<string> browsers = new List<string>();
         Choices choice = new Choices();
         string search = "";
         string path = "";
@@ -51,6 +52,7 @@ namespace Glora
         bool startC = false;
         bool cRedirect = false;
         bool pythonRedirect = false;
+        bool openBrowsers = false;
         bool openFile = false;
         string name;
         bool anim = true;
@@ -247,7 +249,7 @@ namespace Glora
                 gloraSay.Items.Add("");
                 gloraSay.Items.Add("I am opening google sir!");
             }
-            else if (s.ToLower().Contains("close"))
+            else if (s.ToLower().Contains("close") || s.ToLower().Contains("exit"))
             {
                 ss.Speak("See you later!");
                 this.Close();
@@ -313,7 +315,36 @@ namespace Glora
         {
             if (tbCommandForPeople.Text != "")
             {
-                if (cRedirect)
+                if (openBrowsers)
+                {
+                    bool know = false;
+                    foreach (var items in browsers)
+                    {
+                        if (tbCommandForPeople.Text.ToLower().Contains(items))
+                        {
+                            Process.Start(items);
+                            know = true;
+                        }
+                    }
+                    if (tbCommandForPeople.Text.ToLower().Contains("yes") || tbCommandForPeople.Text.ToLower().Contains("yeah") || tbCommandForPeople.Text.ToLower().Contains("jop"))
+                    {
+                        ss.SpeakAsync("Type name, I will repeat it.");
+                        gloraSay.Items.Add("");
+                    }
+                    else if (know)
+                    {
+                        ss.SpeakAsync("I am opnening it.");
+                        openBrowsers = false;
+                    }
+                    else
+                    {
+                        ss.SpeakAsync("OK");
+                        gloraSay.Items.Add("");
+                        gloraSay.Items.Add("OK");
+                        openBrowsers = false;
+                    }
+                }
+                else if (cRedirect)
                 {
                     if (startC)
                     {
@@ -596,19 +627,24 @@ namespace Glora
                     {
                         path = opf.FileName;
                     }
-                    using (StreamReader sr = new StreamReader(path))
+                    if (path == null)
+                    { }
+                    else
                     {
-                        string line;
-                        while ((line = sr.ReadLine()) != null)
+                        using (StreamReader sr = new StreamReader(path))
                         {
-                            ss.SpeakAsync(line);
-                            allTxt += line + Environment.NewLine;
+                            string line;
+                            while ((line = sr.ReadLine()) != null)
+                            {
+                                ss.SpeakAsync(line);
+                                allTxt += line + Environment.NewLine;
+                            }
+                            tbFileOpenInfo.Text = allTxt;
                         }
-                        tbFileOpenInfo.Text = allTxt;
+                        btnSaveReadingFile.IsEnabled = true;
+                        tbFileOpenInfo.IsEnabled = true;
+                        gloraSay.Items.Add("You can edit the file.");
                     }
-                    btnSaveReadingFile.IsEnabled = true;
-                    tbFileOpenInfo.IsEnabled = true;
-                    gloraSay.Items.Add("You can edit the file.");
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("thank"))
                 {
@@ -657,6 +693,24 @@ namespace Glora
                 {
                     ss.SpeakAsync("It is not polit to ask about woman's age");
                     gloraSay.Items.Add("It is not polit to ask about woman's age.");
+                }
+                else if (tbCommandForPeople.Text.ToLower().Contains("detect browsers") || tbCommandForPeople.Text.ToLower().Contains("browser"))
+                {
+                    RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Clients\StartMenuInternet");
+                    if (registryKey == null)
+                        registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Clients\StartMenuInternet");
+
+                    string[] browserNames = registryKey.GetSubKeyNames();
+                    ss.SpeakAsync("I detected " + browserNames.Length + " browsers.");
+                    foreach (var item in browserNames)
+                    {
+                        ss.SpeakAsync(item);
+                        browsers.Add(item.ToLower());
+                    }
+                    ss.SpeakAsync("Do you want to open some of them?");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("Do you want to open some of them?");
+                    openBrowsers = true;
                 }
                 else if (tbCommandForPeople.Text.ToLower().Contains("current date"))
                 {
@@ -738,7 +792,7 @@ namespace Glora
                     gloraSay.Items.Add("");
                     gloraSay.Items.Add("I am opening google sir!");
                 }
-                else if (tbCommandForPeople.Text.ToLower().Contains("close"))
+                else if (tbCommandForPeople.Text.ToLower().Contains("close") || tbCommandForPeople.Text.ToLower().Contains("exit"))
                 {
                     if (problems == true) { }
                     else
