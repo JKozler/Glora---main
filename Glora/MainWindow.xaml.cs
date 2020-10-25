@@ -37,6 +37,8 @@ namespace Glora
         SpeechRecognitionEngine sre = new SpeechRecognitionEngine();
         List<string> browsers = new List<string>();
         Choices choice = new Choices();
+        int indexCommands = 0;
+        string[] commands = new string[30];
         string search = "";
         string path = "";
         string allTxt = "";
@@ -57,7 +59,7 @@ namespace Glora
         string name;
         bool anim = true;
         string[] motivate = { "The harder you work for something, the greater you’ll feel when you achieve it.", "Don’t stop when you’re tired. Stop when you’re done.", "Do something today that your future self will thank you for.", " Sometimes we’re tested not to show our weaknesses, but to discover our strengths.", "The key to success is to focus on goals, not obstacles.", "The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.", "It’s not whether you get knocked down, it’s whether you get up.", "If you have something to do today, don't do it and you will have one free day." };
-        string[] greetings = { "Hi sir", "Hi", "Hello, how are you.", "I am really glad to see you again", "Hey", "Whoops, you think it was lag, nope, it was prank...", "Whats up sir.", "Welcome" };
+        string[] greetings = { "Hi sir", "Hi", "Hello, how are you.", "I am realy glad to see you again", "Hey", "Whoops, you think it was lag, nope, it was prank...", "Whats up sir.", "Welcome" };
         public MainWindow()
         {
             InitializeComponent();
@@ -673,6 +675,46 @@ namespace Glora
                     search = g.Substring(y);
                     Process.Start("chrome", "https://www.youtube.com/results?search_query=" + search);
                 }
+                else if (tbCommandForPeople.Text.ToLower().Contains("do you know something about"))
+                {
+                    string g = tbCommandForPeople.Text.Replace(' ', '+');
+                    ss.SpeakAsync("Yeah of caurse I know, let you see it.");
+                    gloraSay.Items.Add("");
+                    gloraSay.Items.Add("Yeah...");
+                    int y = g.IndexOf("b") + 4;
+                    search = g.Substring(y);
+
+                    string urlAddress = "https://www.google.com/search?q=" + search;
+
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Stream receiveStream = response.GetResponseStream();
+                        StreamReader readStream = null;
+
+                        if (response.CharacterSet == null)
+                        {
+                            readStream = new StreamReader(receiveStream);
+                        }
+                        else
+                        {
+                            readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                        }
+
+                        Stream stream = new FileStream("web.txt", FileMode.Create);
+                        using (StreamWriter sw = new StreamWriter(stream))
+                        {
+                            sw.WriteLine(readStream.ReadToEnd());
+                        }
+                        response.Close();
+                        readStream.Close();
+                    }
+                    webPageCode.IsEnabled = true;
+
+                    Process.Start("chrome", "https://www.google.com/search?q=" + search);
+                }
                 else if (tbCommandForPeople.Text.ToLower().Contains("hello") || tbCommandForPeople.Text.ToLower().Contains("hi") || tbCommandForPeople.Text.ToLower().Contains("hey") || tbCommandForPeople.Text.ToLower().Contains("glora"))
                 {
                     Random random = new Random();
@@ -930,6 +972,19 @@ namespace Glora
                 ellGlora.BeginAnimation(HeightProperty, ani2);
                 dictateTb.Items.Add("You: " + tbCommandForPeople.Text);
                 dictateTb.Items.Add(" ");
+                if (indexCommands == 30)
+                {
+                    for (int i = 0; i < commands.Length - 1; i++)
+                    {
+                        commands[i] = commands[i + 1];
+                    }
+                    commands[30] = tbCommandForPeople.Text;
+                }
+                else
+                {
+                    commands[indexCommands] = tbCommandForPeople.Text;
+                    indexCommands++;
+                }
             }
             else{}
             tbCommandForPeople.Text = "";
@@ -942,9 +997,33 @@ namespace Glora
 
         private void tbCommandForPeople_KeyDown(object sender, KeyEventArgs e)
         {
+            int helpIndexCommands = 0;
             if (e.Key == Key.Enter)
             {
                 dictateBtn_Click(sender, e);
+            }
+            else if (e.Key == Key.Up)
+            {
+                ss.SpeakAsync("Whooops");
+                if (indexCommands == 0){}
+                else if (helpIndexCommands == indexCommands)
+                {
+                    tbCommandForPeople.Text = commands[0];
+                }
+                else
+                {
+                    helpIndexCommands++;
+                    tbCommandForPeople.Text = commands[indexCommands - helpIndexCommands];
+                }
+            }
+            else if (e.Key == Key.Down)
+            {
+                if (helpIndexCommands == 0) { }
+                else if (helpIndexCommands == indexCommands)
+                {
+                    helpIndexCommands--;
+                    tbCommandForPeople.Text = commands[indexCommands - helpIndexCommands];
+                }
             }
         }
 
